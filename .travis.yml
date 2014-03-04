@@ -1,3 +1,7 @@
 language: node_js
 node_js:
   - "0.11"
+notifications:
+  email:
+    - galuszkak@gmail.com
+    - piotrek.koscielniak@gmail.com
