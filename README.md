@@ -1,6 +1,8 @@
 zdalniacy.pl
 ============
 
+[![Build Status](https://travis-ci.org/zdalniacy/zdalniacy.pl.png?branch=master)](https://travis-ci.org/zdalniacy/zdalniacy.pl)
+
 zdalniacy.pl
 
 
