@@ -12,7 +12,12 @@
     "koa-static": "^1.4.0",
     "ejs": "^0.8.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "co": "*",
+    "mocha": "*",
+    "should": "*",
+    "supertest": "*"
+  },
   "engines": {
     "node": ">= 0.11.9"
   },
