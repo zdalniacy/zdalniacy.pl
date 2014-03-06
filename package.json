@@ -1,0 +1,28 @@
+{
+  "name": "zdalniacy.pl",
+  "version": "0.0.1",
+  "description": "Zdalaniacy.pl web project",
+  "main": "index.js",
+  "dependencies": {
+    "koa": "~0.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zdalniacy/zdalniacy.pl"
+  },
+  "keywords": [
+    "zdalniacy",
+    "koa",
+    "node-devel"
+  ],
+  "author": "Piotr Kościelniak & Kamil Gałuszka",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/zdalniacy/zdalniacy.pl/issues"
+  },
+  "homepage": "https://github.com/zdalniacy/zdalniacy.pl"
+}
