@@ -11,7 +11,8 @@
     "koa-route": "^1.0.2",
     "koa-static": "^1.4.0",
     "ejs": "^0.8.5",
-    "less": "^1.7.0"
+    "less": "^1.7.0",
+    "co-views": "^0.2.0"
   },
   "devDependencies": {
     "co": "*",
