@@ -9,7 +9,7 @@
     "koa-session": "^1.2.0",
     "koa-logger": "^1.1.0",
     "koa-router": "^3.1.0",
-    "koa-static": "^1.4.0",
+    "koa-static": "^1.4.3",
     "ejs": "^0.8.5",
     "less": "^1.7.0",
     "co-views": "^0.2.0"

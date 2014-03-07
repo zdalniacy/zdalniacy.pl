@@ -1,3 +1,4 @@
+var serve = require('koa-static');
 var koa = require('koa');
 var router = require('./server/routes/routes')
 var app = koa();
