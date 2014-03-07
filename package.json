@@ -37,8 +37,8 @@
   ],
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "node gulpfile.js && mocha --reporter spec",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "node gulpfile.js && mocha --harmony-generators --require should --reporter spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha  --harmony-generators  --require should --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
