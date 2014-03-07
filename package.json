@@ -8,7 +8,7 @@
     "koa-compose": "^2.1.0",
     "koa-session": "^1.2.0",
     "koa-logger": "^1.1.0",
-    "koa-route": "^1.0.2",
+    "koa-router": "^3.1.0",
     "koa-static": "^1.4.0",
     "ejs": "^0.8.5",
     "less": "^1.7.0",
