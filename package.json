@@ -15,15 +15,23 @@
   },
   "devDependencies": {
     "co": "*",
+    "mocha-lcov-reporter": "^0.0.1",
     "mocha": "*",
     "should": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "coveralls": "^2.7.0",
+    "istanbul": "^0.2.3",
+    "jshint": "^2.4.1",
+    "gulp": "^3.5.5",
+    "gulp-util": "^2.2.0",
+    "gulp-jshint": "^1.4.0"
   },
   "engines": {
     "node": ">= 0.11.9"
   },
   "scripts": {
-    "test": "make test"
+    "test": "node gulpfile.js && mocha --reporter spec",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -34,7 +42,7 @@
     "koa",
     "node-devel"
   ],
-  "author": "Piotr Kościelniak & Kamil Gałuszka",
+  "authors": ["Piotr Kościelniak",  "Kamil Gałuszka"],
   "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/zdalniacy/zdalniacy.pl/issues"
