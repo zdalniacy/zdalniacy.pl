@@ -9,7 +9,7 @@ var adminPage = function *(){
   this.body = yield render("admin.ejs");
 }
 
-exports = {
+exports.views = {
   'adminPage': adminPage,
   'homePage': homePage
 }
