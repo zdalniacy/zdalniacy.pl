@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - "0.11"
+before_script:
+  - alias node='node --harmony'
 after_script:
   - npm run coveralls
 notifications:

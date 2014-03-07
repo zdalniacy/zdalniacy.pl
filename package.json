@@ -28,9 +28,13 @@
   "engines": {
     "node": ">= 0.11.9"
   },
+  "files": [
+    "index.js",
+    "server"
+  ],
   "scripts": {
     "test": "node gulpfile.js && mocha --reporter spec",
-    "coveralls": "istanbul cover _mocha -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
