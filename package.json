@@ -23,7 +23,8 @@
     "jshint": "^2.4.4",
     "gulp": "^3.5.5",
     "gulp-util": "^2.2.14",
-    "gulp-jshint": "^1.5.0"
+    "gulp-jshint": "^1.5.0",
+    "bower": "~1.2.8"
   },
   "engines": {
     "node": ">= 0.11.9"
@@ -33,6 +34,7 @@
     "server"
   ],
   "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "node gulpfile.js && mocha --reporter spec",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
@@ -45,7 +47,10 @@
     "koa",
     "node-devel"
   ],
-  "authors": ["Piotr Kościelniak",  "Kamil Gałuszka"],
+  "authors": [
+    "Piotr Kościelniak",
+    "Kamil Gałuszka"
+  ],
   "license": "GPLv2",
   "bugs": {
     "url": "https://github.com/zdalniacy/zdalniacy.pl/issues"

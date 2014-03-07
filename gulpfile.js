@@ -20,3 +20,4 @@ gulp.task('watch', function() {
   gulp.watch(codeFiles, ['lint']);
 });
 
+gulp.task('default', ['lint', 'watch']);
