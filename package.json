@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "co": "*",
-    "mocha-lcov-reporter": "^0.0.1",
     "mocha": "*",
     "should": "*",
     "supertest": "*",
@@ -31,7 +30,7 @@
   },
   "scripts": {
     "test": "node gulpfile.js && mocha --reporter spec",
-    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "coveralls": "istanbul cover _mocha -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
