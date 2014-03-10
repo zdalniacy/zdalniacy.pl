@@ -13,7 +13,8 @@
     "ejs": "^0.8.5",
     "less": "^1.7.0",
     "co-views": "^0.2.0",
-    "koa-mount": "~1.2.3"
+    "koa-mount": "~1.2.3",
+    "mongoose": "~3.8.8"
   },
   "devDependencies": {
     "co": "*",
@@ -37,8 +38,8 @@
   ],
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "node gulpfile.js && mocha --harmony-generators -R spec ./test",
-    "coveralls": "node --harmony-generators node_modules/.bin/istanbul cover _mocha --report lcovonly -- -R spec ./test && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "test": "node gulpfile.js && mocha --harmony --recursive -R spec ./test",
+    "coveralls": "node --harmony node_modules/.bin/istanbul cover _mocha --report lcovonly -- -R spec ./test && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
