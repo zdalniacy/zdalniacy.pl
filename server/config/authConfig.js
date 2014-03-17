@@ -1,26 +1,15 @@
-var passport = require('koa-passport');
+var session = require('koa-sess');
 
-var GitHubStrategy = require('passport-github').Strategy;
-
-module.exports = function (config) {
+module.exports = function (app, config) {
   "use strict";
 
-  passport.serializeUser(function (user, done) {
-    done(null, user);
-  });
+  app.keys = ['zdalniacy.pl'];
+  app.use(session());
 
-  passport.deserializeUser(function (obj, done) {
-    done(null, obj);
-  });
-  passport.use(new GitHubStrategy({
-      clientID: config.githubClientId,
-      clientSecret: config.githubClientSecret,
-      callbackURL: "http://localhost:" + config.port + "/auth/github/callback"
-    },
-    function (accessToken, refreshToken, profile, done) {
-      process.nextTick(function () {
-        return done(null, profile);
-      });
-    }
-  ));
+  require('./passportConfig')(config);
+  var passport = require('koa-passport');
+  app.use(passport.initialize());
+  app.use(passport.session());
 };
+
+
