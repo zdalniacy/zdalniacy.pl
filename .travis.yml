@@ -1,12 +1,16 @@
 language: node_js
 node_js:
-  - "0.11"
+- '0.11'
 services: mongodb
 before_script:
-  - alias node='node --harmony'
+- alias node='node --harmony'
 after_script:
-  - npm run coveralls
+- npm run coveralls
 notifications:
   email:
-    - galuszkak@gmail.com
-    - piotrek.koscielniak@gmail.com
+  - galuszkak@gmail.com
+  - piotrek.koscielniak@gmail.com
+env:
+  global:
+  - secure: ffVYDABq0P37YCS/nBE4Re6aK2lfVIffqhNDwxswW9+PWhDbyTM/8CEO4Jj0xhbepr64Z9twV0xVK+Wl0biDJkYH8bhnbV/ItbaO8ZtZRNmTgF8G5sM7gRSlyk/dI9U+kChOQ+uChCM+cw4P9o6u+s+9naBMQizvmWHGjKf6JEM=
+  - secure: iZ4SstdBoCTFDtPQmVXKeCbencqxl4y0gPW/B/JLD+WFHJSG3/xo4xYX9xZohX7KbxWBFfdKq7hkj4Rx72s2+Z9GVijDWFyEmnpEAInw2Y+kutrl596DWEzrTnR9c2VlzQBeUr2+k2diQjSYmA48svDggSNdKIUcQDU8BGDYZCs=
