@@ -1,5 +1,6 @@
 {
   "strict": true,
+  "esnext": true,
   "undef": true,
   "unused": true,
   "node": true,
@@ -7,6 +8,9 @@
     "describe": true,
     "it": true,
     "beforeEach": true,
-    "afterEach": true
+    "afterEach": true,
+    "require": true,
+    "module": true,
+    "process": true
   }
 }

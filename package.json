@@ -6,7 +6,6 @@
   "dependencies": {
     "koa": "~0.5.1",
     "koa-compose": "^2.1.0",
-    "koa-session": "~1.2.1",
     "koa-logger": "^1.1.0",
     "koa-router": "^3.1.0",
     "koa-static": "^1.4.3",
@@ -16,7 +15,8 @@
     "koa-mount": "~1.2.3",
     "mongoose": "~3.8.8",
     "koa-passport": "~0.2.0",
-    "passport-github": "~0.1.5"
+    "passport-github": "~0.1.5",
+    "koa-sess": "~0.3.0"
   },
   "devDependencies": {
     "co": "*",
