@@ -13,7 +13,7 @@ app.use(serve(__dirname + '/public'));
 require('./server/config/authConfig')(app, config);
 
 app.use(router.middleware());
-app.use(authorize);
+//app.use(authorize);
 app.use(securedRouter.middleware());
 
 
