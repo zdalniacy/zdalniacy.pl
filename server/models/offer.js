@@ -4,13 +4,13 @@ var mongoose = require('mongoose'),
 var offerSchema = new Schema({
   title: String,
   description: String,
-  salary_start: Number,
-  salary_end: Number,
-  offer_start: Date,
-  offer_end: Date,
+  salaryStart: Number,
+  salaryEnd: Number,
+  offerStart: Date,
+  offerEnd: Date,
   slug: String
 });
 
 var Offer = mongoose.model("Offer", offerSchema);
 
-module.exports.Offer = Offer;
+module.exports = Offer;

@@ -1,19 +1,19 @@
 var views = require('co-views');
 var render = views(__dirname + '/../views', { ext: 'ejs' });
 
-var homePage = function *() {
+function * homePage() {
   this.body = yield render("home.ejs");
-};
+}
 
-var adminPage = function *() {
+function * adminPage() {
   this.body = yield render("admin.ejs");
-};
+}
 
-var loginPage = function *() {
+function * loginPage() {
   this.body = yield render("login.ejs");
-};
+}
 
-exports.views = {
+module.exports = {
   adminPage: adminPage,
   homePage: homePage,
   loginPage: loginPage

@@ -1,6 +1,10 @@
-var app = require('../index');
-var should = require('should');
-var request = require('supertest').agent(app.listen());
+var app = require('../index'),
+  should = require('should'),
+  request = require('supertest').agent(app.listen()),
+  Offer = require('../server/models/offer.js'),
+  mongoose = require('mongoose'),
+  connection = mongoose.connection,
+  chance = require('chance').Chance();
 
 describe('Loading Main Page', function(){
   it('should say "Hello World "', function(done){
@@ -29,6 +33,22 @@ describe('Admin Page', function(){
       }
       done();
 
+    });
+  });
+});
+
+describe('Admin Offers', function(){
+  it('should show list admin offers', function(done){
+    var title = chance.string();
+    var offer = new Offer({title: title});
+    offer.save(function(err){
+      if(err) throw err;
+        request
+        .get('/admin/offers/')
+        .expect(200)
+        .end(function(err, res){
+          done();
+        });
     });
   });
 });
