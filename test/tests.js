@@ -1,9 +1,11 @@
+"use strict";
+
 var app = require('../index'),
   should = require('should'),
   request = require('supertest').agent(app.listen()),
   Offer = require('../server/models/offer.js'),
   mongoose = require('mongoose'),
-  connection = mongoose.connection,
+//  connection = mongoose.connection,
   chance = require('chance').Chance();
 
 describe('Loading Main Page', function(){
@@ -27,7 +29,7 @@ describe('Admin Page', function(){
     request
     .get('/admin_panel/')
     .expect(200)
-    .end(function(err, res){
+    .end(function(err){
       if(err){
         throw err;
       }
@@ -46,7 +48,7 @@ describe('Admin Offers', function(){
         request
         .get('/admin/offers/')
         .expect(200)
-        .end(function(err, res){
+        .end(function(){
           done();
         });
     });
