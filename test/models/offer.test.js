@@ -8,9 +8,7 @@ var Offer = require('../../server/models/offer.js'),
 describe('Offer model', function () {
 
   afterEach(function (done) {
-    Offer.findOneAndRemove({title: 'TEST'}, function () {
-      done();
-    });
+    Offer.collection.remove(done);
   });
 
   it("should create and find Offer object", function (done) {
