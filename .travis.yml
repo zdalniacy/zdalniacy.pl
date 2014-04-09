@@ -5,7 +5,10 @@ services: mongodb
 before_script:
 - alias node='node --harmony'
 after_script:
+- npm run coverage
 - npm run coveralls
+- npm run codeclimate 
+- npm run cleancoverage
 notifications:
   email:
   - galuszkak@gmail.com
@@ -14,3 +17,4 @@ env:
   global:
   - secure: ffVYDABq0P37YCS/nBE4Re6aK2lfVIffqhNDwxswW9+PWhDbyTM/8CEO4Jj0xhbepr64Z9twV0xVK+Wl0biDJkYH8bhnbV/ItbaO8ZtZRNmTgF8G5sM7gRSlyk/dI9U+kChOQ+uChCM+cw4P9o6u+s+9naBMQizvmWHGjKf6JEM=
   - secure: iZ4SstdBoCTFDtPQmVXKeCbencqxl4y0gPW/B/JLD+WFHJSG3/xo4xYX9xZohX7KbxWBFfdKq7hkj4Rx72s2+Z9GVijDWFyEmnpEAInw2Y+kutrl596DWEzrTnR9c2VlzQBeUr2+k2diQjSYmA48svDggSNdKIUcQDU8BGDYZCs=
+  - secure: mmQgFBp6owyswG6M6jEMeJOt4CD5m44DtVtWwA6LsPyzTNmY6hBi1L1WYs9OrOwls2O/CTKv5mh19lzvkSlmBJnifTswjrMtSla4tn53NlmQn2z/YX7fl1IgAWqt1x83bnYKBucl/CXuROV+j5xtUyM/JV02Cv7ZsIzYO/hPl9A=

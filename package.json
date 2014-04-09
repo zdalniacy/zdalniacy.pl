@@ -23,7 +23,8 @@
     "mocha": "*",
     "should": "*",
     "supertest": "*",
-    "coveralls": "^2.8.0",
+    "coveralls": "*",
+    "codeclimate-test-reporter": "*",
     "istanbul": "git://github.com/gotwarlost/istanbul#harmony",
     "jshint": "^2.5.0",
     "gulp": "^3.5.0",
@@ -42,7 +43,10 @@
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
     "test": "node gulpfile.js && mocha --harmony --recursive -R spec ./test",
-    "coveralls": "node --harmony node_modules/.bin/istanbul cover _mocha --report lcovonly -- -R spec ./test && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "coverage": "node --harmony node_modules/.bin/istanbul cover _mocha --report lcovonly -- -R spec ./test",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "codeclimate": "cat ./coverage/lcov.info | codeclimate",
+    "cleancoverage": "rm -R ./coverage"
   },
   "repository": {
     "type": "git",

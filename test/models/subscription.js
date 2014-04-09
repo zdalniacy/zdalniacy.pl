@@ -5,21 +5,44 @@ var mongoose = require('mongoose'),
   chance = new require('chance');
 
 describe('Subscription model', function () {
-
-  it("should create Subscription object", function (done) {
-    done();
+  var title = chance.string();
+  
+  before(function(done){
+    var offer = new Offer({title: title});
+    offer.save(function(err){
+        if(err) throw err;
+        done()
+    });  
   });
   
-  it("should find Subscription object", function (done) {
-    done();
+  afterEach(function(done){
+    Offer.findOneAndRemove({title: 'TEST'}, function(err){
+      done();
+    });
+  });
+  
+  it("should create and find Subscription object", function (done) {
+      Offer.findOne({title: title}, function(err, offer2){
+        if(err) throw "error"; 
+        offer2.title.should.equal(title);
+        done();
+      });
   });
 
   it("should update Subscription object", function (done) {
-    done();
+      Offer.findOne({title: title}, function(err, offer2){
+        if(err) throw "error"; 
+        offer2.title.should.equal(title);
+        done();
+      });  
   });
   
   it("should delete Subscription object", function (done) {
-    done();
+      Offer.findOne({title: title}, function(err, offer2){
+        if(err) throw "error"; 
+        offer2.title.should.equal(title);
+        done();
+      });  
   });
   
 });
