@@ -24,7 +24,7 @@
     "should": "*",
     "supertest": "*",
     "coveralls": "*",
-    "codeclimate-test-reporter": "*",
+    "codeclimate-test-reporter": "https://github.com/codeclimate/javascript-test-reporter/tarball/master",
     "istanbul": "git://github.com/gotwarlost/istanbul#harmony",
     "jshint": "^2.5.0",
     "gulp": "^3.5.0",
