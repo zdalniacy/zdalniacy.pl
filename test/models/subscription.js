@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   mongooseConfig = require('../../server/config/mongoose'),
   Subscription = require('../../server/models/offer.js').Subscription,
   connection = mongoose.connection,
-  chance = new require('chance');
+  chance = require('chance').Chance();
 
 describe('Subscription model', function () {
   var title = chance.string();
@@ -21,7 +21,7 @@ describe('Subscription model', function () {
     });
   });
   
-  it("should create and find Subscription object", function (done) {
+  it("should find Subscription object", function (done) {
       Offer.findOne({title: title}, function(err, offer2){
         if(err) throw "error"; 
         offer2.title.should.equal(title);
