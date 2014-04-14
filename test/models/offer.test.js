@@ -7,7 +7,7 @@ var Offer = require('../../server/models/offer.js'),
 
 describe('Offer model', function () {
 
-  afterEach(function (done) {
+  after(function (done) {
     Offer.collection.remove(done);
   });
 

@@ -9,6 +9,8 @@
     "it": true,
     "beforeEach": true,
     "afterEach": true,
+    "after": true,
+    "before": true,
     "require": true,
     "module": true,
     "process": true
