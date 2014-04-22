@@ -1,7 +1,6 @@
 "use strict";
 
-var Offer = require('../../server/models/offer.js'),
-  repository = require('../../server/repositories/offerRepository'),
+var repository = require('../../server/repositories/offerRepository'),
   chance = require('chance').Chance(),
   expect = require('chai').expect,
   co = require('co');
@@ -10,7 +9,10 @@ var Offer = require('../../server/models/offer.js'),
 describe('offerRepository', function () {
 
   after(function (done) {
-    Offer.collection.remove(done);
+    co(function * () {
+      yield repository.removeAll();
+      done();
+    })();
   });
 
   describe("create", function () {
@@ -53,7 +55,10 @@ describe('offerRepository', function () {
   describe("find", function () {
 
     beforeEach(function (done) {
-      Offer.collection.remove(done);
+      co(function * () {
+        yield repository.removeAll();
+        done();
+      })();
     });
 
     it("should return all offers sorted ascending", function (done) {
@@ -68,7 +73,6 @@ describe('offerRepository', function () {
         titles.sort();
         expect(offers.length).to.equal(3);
         titles.forEach(function (elem, index) {
-          console.log(elem);
           expect(offers[index].title).to.equal(elem);
         });
         done();

@@ -1,9 +1,6 @@
 "use strict";
 
-var mongoose = require('mongoose'),
-  mongooseConfig = require('../../server/config/mongoose'),
-  Subscription = require('../../server/models/subscription').Subscription,
-  connection = mongoose.connection,
+var Subscription = require('../../server/models/subscription'),
   chance = require('chance').Chance();
 
 describe('Subscription model', function () {
@@ -16,7 +13,6 @@ describe('Subscription model', function () {
       done();
     });
   });
-
 
   after(function (done) {
     Subscription.collection.remove(done);

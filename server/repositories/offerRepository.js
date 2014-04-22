@@ -16,6 +16,13 @@ function find(criteria) {
   return Offer.find(criteria).sort('title').exec();
 }
 
+function removeAll(){
+  return function(call) {
+    Offer.collection.remove(call);
+  }
+}
+
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
+module.exports.removeAll = removeAll;
