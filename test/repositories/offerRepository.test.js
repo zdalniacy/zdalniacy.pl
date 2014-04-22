@@ -13,7 +13,7 @@ describe('offerRepository', function () {
   });
 
   describe("create", function () {
-    it("should create and add new offer", function (done) {
+    it("should create and return new offer", function (done) {
       var title = chance.string();
       var offer = {title: title};
 
@@ -25,37 +25,27 @@ describe('offerRepository', function () {
     });
   });
 
-//  it("should create and find Offer object", function (done) {
+  describe("findOne", function () {
+    it("should return offer if offer exists", function (done) {
+      var title = chance.string();
+      var offer = {title: title};
 
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+        var foundOffer = yield repository.findOne({title: title});
+        expect(title).to.equal(foundOffer.title);
+        expect(savedOffer._id.toString()).to.equal(foundOffer._id.toString());
+        done();
+      })();
+    });
+    it("should return null if offer doesn't exist", function (done) {
+      var title = chance.string();
 
-//    var offer = new Offer({title: title});
-
-//    var save = function () {
-//      return function (callback) {
-//        offer.save(callback);
-//      };
-//    };
-//
-//    var findOne = function (title) {
-//      return function (call) {
-//        Offer.findOne({title: title}, call);
-//      };
-//    };
-
-//    co(function * () {
-//      yield save();
-//      var savedOffer = yield findOne(title);
-//      expect(savedOffer.title).to.equal(title);
-//      done();
-//    })();
-//  });
-
-//  it("should update Offer object", function (done) {
-//    done();
-//  });
-//
-//  it("should delete Offer object", function (done) {
-//    done();
-//  });
-
+      co(function * () {
+        var foundOffer = yield repository.findOne({title: title});
+        expect(foundOffer).to.equal(null);
+        done();
+      })();
+    });
+  });
 });
