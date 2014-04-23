@@ -1,10 +1,11 @@
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+  Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId;
 
 var offerSchema = new Schema({
   title: String,
   description: String,
-  company: {type: Number, ref: "Company"},
+  company: {type: ObjectId, ref: "Company"},
   salaryStart: Number,
   salaryEnd: Number,
   createDate: Date,
