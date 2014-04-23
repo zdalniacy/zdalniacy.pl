@@ -3,8 +3,51 @@
 var repository = require('../../server/repositories/offerRepository'),
   chance = require('chance').Chance(),
   expect = require('chai').expect,
-  co = require('co');
+  co = require('co'),
+  _ = require('underscore');
 
+function createRandomOffer() {
+  return {
+    title: chance.string(),
+    description: chance.string(),
+    salaryStart: chance.floating({min: 1, fixed: 2}),
+    salaryEnd: chance.floating({min: 1, fixed: 2}),
+    createDate: chance.date(),
+    moderationDate: chance.date(),
+    publishDate: chance.date(),
+    endDate: chance.date(),
+    closeKey: chance.hash(),
+    transaction: {
+      isPaid: chance.bool(),
+      paymentDate: chance.date(),
+      transactionId: chance.hash(),
+      amount: chance.floating({min: 1, fixed: 2})
+    },
+    slug: chance.string(),
+    tags: [chance.string(), chance.string()]
+  };
+}
+
+function compareOffers(offer, savedOffer) {
+
+  function compareTransaction(trasaction, saveTransaction) {
+    _.each(trasaction, function (value, key) {
+      expect(value).to.equal(saveTransaction[key]);
+    });
+  }
+
+  _.each(offer, function (value, key) {
+    if (key === 'transaction') {
+      compareTransaction(value, savedOffer[key]);
+      return;
+    }
+    if (key === 'tags') {
+      expect(value.join()).to.equal(savedOffer[key].join());
+      return;
+    }
+    expect(value).to.equal(savedOffer[key]);
+  });
+}
 
 describe('offerRepository', function () {
 
@@ -17,12 +60,13 @@ describe('offerRepository', function () {
 
   describe("create", function () {
     it("should create and return new offer", function (done) {
-      var title = chance.string();
-      var offer = {title: title};
+      var offer = createRandomOffer();
 
       co(function * () {
         var savedOffer = yield repository.create(offer);
-        expect(savedOffer.title).to.equal(title);
+
+        compareOffers(offer, savedOffer);
+
         done();
       })();
     });

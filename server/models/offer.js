@@ -12,7 +12,7 @@ var offerSchema = new Schema({
   moderationDate: Date,
   publishDate: Date,
   endDate: Date,
-  close_key: Date,
+  closeKey: String,
   transaction: {
     isPaid: Boolean,
     paymentDate: Date,
