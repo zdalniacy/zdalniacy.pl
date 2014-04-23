@@ -32,7 +32,7 @@ function compareOffers(offer, savedOffer) {
 
   function compareTransaction(trasaction, saveTransaction) {
     _.each(trasaction, function (value, key) {
-      expect(value).to.equal(saveTransaction[key]);
+      expect(value.toString()).to.equal(saveTransaction[key].toString());
     });
   }
 
@@ -45,7 +45,8 @@ function compareOffers(offer, savedOffer) {
       expect(value.join()).to.equal(savedOffer[key].join());
       return;
     }
-    expect(value).to.equal(savedOffer[key]);
+    if (key === 'createDate') return;
+    expect(value.toString()).to.equal(savedOffer[key].toString(), key);
   });
 }
 
@@ -74,19 +75,20 @@ describe('offerRepository', function () {
 
   describe("findOne", function () {
     it("should return offer if offer exists", function (done) {
-      var title = chance.string();
-      var offer = {title: title};
+      var offer = createRandomOffer();
 
       co(function * () {
         var savedOffer = yield repository.create(offer);
-        var foundOffer = yield repository.findOne({title: title});
-        expect(title).to.equal(foundOffer.title);
+        var foundOffer = yield repository.findOne({title: offer.title});
+
+        compareOffers(offer, savedOffer);
+        compareOffers(offer, foundOffer);
         expect(savedOffer._id.toString()).to.equal(foundOffer._id.toString());
         done();
       })();
     });
     it("should return null if offer doesn't exist", function (done) {
-      var title = chance.string();
+      var title = chance.string() + chance.hash();
 
       co(function * () {
         var foundOffer = yield repository.findOne({title: title});
@@ -106,18 +108,18 @@ describe('offerRepository', function () {
     });
 
     it("should return all offers sorted ascending", function (done) {
-      var titles = [chance.string(), chance.string(), chance.string()];
+      var offers = [createRandomOffer(), createRandomOffer(), createRandomOffer()];
 
       co(function * () {
-        yield repository.create({title: titles[0]});
-        yield repository.create({title: titles[1]});
-        yield repository.create({title: titles[2]});
-        var offers = yield repository.find();
+        yield repository.create(offers[0]);
+        yield repository.create(offers[1]);
+        yield repository.create(offers[2]);
+        var foundOffers = yield repository.find();
 
-        titles.sort();
-        expect(offers.length).to.equal(3);
-        titles.forEach(function (elem, index) {
-          expect(offers[index].title).to.equal(elem);
+        var sortedOffers = _.sortBy(offers, "title");
+        expect(foundOffers.length).to.equal(3);
+        sortedOffers.forEach(function (elem, index) {
+          compareOffers(elem, foundOffers[index]);
         });
         done();
       })();
