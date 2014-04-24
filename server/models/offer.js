@@ -20,7 +20,7 @@ var offerSchema = new Schema({
     amount: Number
   },
   slug: String,
-  tags: { type: [String], index: true } 
+  tags: { type: [String], index: true }
 });
 
 var Offer = mongoose.model("Offer", offerSchema);

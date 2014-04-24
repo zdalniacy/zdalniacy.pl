@@ -125,4 +125,52 @@ describe('offerRepository', function () {
       })();
     });
   });
+
+  describe("findByIdAndUpdate", function () {
+
+    it("should update offer", function (done) {
+      var offer = createRandomOffer();
+      var updateOffer = createRandomOffer();
+
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+
+        var afterUpdateOffer = yield repository.findByIdAndUpdate(savedOffer._id, updateOffer);
+
+        compareOffers(updateOffer, afterUpdateOffer);
+
+        done();
+      })();
+    });
+
+    it("should unly update these properties which are passed", function (done) {
+      var offer = createRandomOffer();
+      var propertiesToUpdate = {
+        closeKey: chance.hash(),
+        moderationDate: chance.date(),
+        transaction: {
+          paymentDate: chance.date(),
+          transactionId: chance.hash()
+        }
+      };
+
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+
+        var afterUpdateOffer = yield repository.findByIdAndUpdate(savedOffer._id, propertiesToUpdate);
+
+        offer.closeKey = propertiesToUpdate.closeKey;
+        offer.moderationDate = propertiesToUpdate.moderationDate;
+        offer.transaction.paymentDate = propertiesToUpdate.transaction.paymentDate;
+        offer.transaction.transactionId = propertiesToUpdate.transaction.transactionId;
+
+        compareOffers(offer, afterUpdateOffer);
+
+        done();
+      })();
+
+    });
+
+  });
+
 });
