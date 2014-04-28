@@ -19,7 +19,7 @@ function find(criteria) {
 function removeAll(){
   return function(call) {
     Subscription.collection.remove(call);
-  }
+  };
 }
 
 module.exports.create = create;

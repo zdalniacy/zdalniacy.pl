@@ -4,7 +4,7 @@ var repository = require('../../server/repositories/offerRepository'),
   chance = require('chance').Chance(),
   expect = require('chai').expect,
   co = require('co'),
-  _ = require('underscore');
+  _ = require('lodash');
 
 function createRandomOffer() {
   return {

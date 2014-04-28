@@ -1,5 +1,5 @@
 "use strict";
-var _ = require('underscore');
+var _ = require('lodash');
 var Offer = require('../models/offer');
 
 function create(offer) {
