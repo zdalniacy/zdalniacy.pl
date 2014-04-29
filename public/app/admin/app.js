@@ -1,3 +1,4 @@
+"use strict";
 angular.module('dashboard',[]);
 angular.module('zdalniacyAdmin',['ngRoute','dashboard']);
 

@@ -1,3 +1,4 @@
+"use strict";
 var views = require('co-views');
 var render = views(__dirname + '/../views', { ext: 'ejs' });
 
