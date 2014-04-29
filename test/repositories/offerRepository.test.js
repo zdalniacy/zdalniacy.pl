@@ -191,4 +191,36 @@ describe('offerRepository', function () {
 
   });
 
+  describe("remove", function () {
+    it("when one offer matches should remove offer and return 1", function (done) {
+      var offer = createRandomOffer();
+
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+        var result = yield repository.remove({_id: savedOffer._id});
+
+        var notExistsOffer = yield repository.findOne({_id: savedOffer._id});
+
+        expect(notExistsOffer).to.equal(null);
+        expect(result).to.equal(1);
+        done();
+      })();
+    });
+
+    it("when offer doesn't exist should return 0", function (done) {
+      var offer = createRandomOffer();
+
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+        yield repository.remove({_id: savedOffer._id});
+        var documentsAffected = yield repository.remove({_id: savedOffer._id});
+
+
+        expect(documentsAffected).to.equal(0);
+        done();
+      })();
+    });
+
+  });
+
 });

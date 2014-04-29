@@ -38,8 +38,15 @@ function findByIdAndUpdate(id, updatedOffer) {
   return Offer.findByIdAndUpdate(id, update).exec();
 }
 
+function remove(criteria) {
+  return function (call) {
+    Offer.remove(criteria, call);
+  };
+}
+
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
 module.exports.removeAll = removeAll;
 module.exports.findByIdAndUpdate = findByIdAndUpdate;
+module.exports.remove = remove;
