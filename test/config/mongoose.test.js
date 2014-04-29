@@ -5,7 +5,6 @@ var mongoose = require('mongoose'),
 
 describe('mongoose config', function () {
   it("should setup connection to database", function (done) {
-    console.dir(connection.readyState);
     if(connection.readyState === 1) {
       done();
     }
