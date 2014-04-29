@@ -1,15 +1,14 @@
 "use strict";
 var _ = require('lodash');
 var Offer = require('../models/offer');
+require('../models/company');
 
 function create(offer) {
   return Offer.create(offer);
 }
 
 function findOne(criteria) {
-  return function (call) {
-    Offer.findOne(criteria, call);
-  };
+  return Offer.findOne(criteria).populate('company').exec();
 }
 
 function find(criteria) {
