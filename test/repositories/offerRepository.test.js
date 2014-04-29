@@ -171,6 +171,24 @@ describe('offerRepository', function () {
 
     });
 
+    it("should update tags", function (done) {
+      var offer = createRandomOffer();
+      var tagsToUpdate = {
+        tags: [chance.string(), chance.string()]
+      };
+
+      co(function * () {
+        var savedOffer = yield repository.create(offer);
+
+        var afterUpdateOffer = yield repository.findByIdAndUpdate(savedOffer._id, tagsToUpdate);
+
+        expect(tagsToUpdate.tags.toString()).to.equal(afterUpdateOffer.tags.toString());
+
+        done();
+      })();
+
+    });
+
   });
 
 });
