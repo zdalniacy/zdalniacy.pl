@@ -1,5 +1,6 @@
-"use strict";
 (function() {
+  "use strict";
+
     var DashboardController = function($scope){
         $scope.helloWorld = "Hello world";
     };
