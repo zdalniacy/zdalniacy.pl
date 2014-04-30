@@ -29,10 +29,42 @@ describe("companyRepository", function () {
     });
   });
 
-  describe("removeAll", function () {
-    it("should remove all companies", function () {
+  describe("findOne", function () {
+    it("should return company if company exists", function (done) {
+      var company = createRandomCompany();
+
+      co(function * () {
+        var savedCompany = yield repository.create(company);
+        var foundCompany = yield repository.findOne({name: company.name});
+
+        compareCompany(company, savedCompany);
+        compareCompany(company, foundCompany);
+
+        expect(savedCompany._id.toString()).to.equal(foundCompany._id.toString());
+        done();
+      })();
+    });
+    it("should return null if company doesn't exist", function (done) {
+      var name = chance.string() + chance.hash();
+
+      co(function * () {
+        var foundCompany = yield repository.findOne({name: name});
+        expect(foundCompany).to.equal(null);
+        done();
+      })();
     });
   });
+
+//  describe("removeAll", function () {
+//    it("should remove all companies", function (done) {
+//      co(function * () {
+//        yield repository.create(createRandomCompany());
+//        yield repository.create(createRandomCompany());
+//        yield repository.create(createRandomCompany());
+//        done();
+//      })();
+//    });
+//  });
 
 });
 
