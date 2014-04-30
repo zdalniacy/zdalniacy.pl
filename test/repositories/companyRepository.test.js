@@ -15,6 +15,20 @@ function compareCompany(company, savedCompany) {
 
 describe("companyRepository", function () {
 
+  before(function (done) {
+    co(function * () {
+      yield repository.removeAll();
+      done();
+    })();
+  });
+
+  after(function (done) {
+    co(function * () {
+      yield repository.removeAll();
+      done();
+    })();
+  });
+
   describe("create", function () {
     it("should create and return new company", function (done) {
       var company = createRandomCompany();
@@ -55,16 +69,59 @@ describe("companyRepository", function () {
     });
   });
 
-//  describe("removeAll", function () {
-//    it("should remove all companies", function (done) {
-//      co(function * () {
-//        yield repository.create(createRandomCompany());
-//        yield repository.create(createRandomCompany());
-//        yield repository.create(createRandomCompany());
-//        done();
-//      })();
-//    });
-//  });
+  describe("find", function () {
+
+    beforeEach(function (done) {
+      co(function * () {
+        yield repository.removeAll();
+        done();
+      })();
+    });
+
+    it("should return all companies sorted ascending by name", function (done) {
+      var companies = [createRandomCompany(), createRandomCompany(), createRandomCompany()];
+
+      co(function * () {
+        yield repository.create(companies[0]);
+        yield repository.create(companies[1]);
+        yield repository.create(companies[2]);
+        var foundCompanies = yield repository.find();
+
+        var sortedOffers = _.sortBy(companies, "name");
+        expect(foundCompanies.length).to.equal(3);
+        sortedOffers.forEach(function (elem, index) {
+          compareCompany(elem, foundCompanies[index]);
+        });
+        done();
+      })();
+    });
+  });
+
+  describe("removeAll", function () {
+
+    beforeEach(function (done) {
+      co(function * () {
+        yield repository.removeAll();
+        done();
+      })();
+    });
+
+    it("should remove all companies", function (done) {
+      co(function * () {
+        yield repository.create(createRandomCompany());
+        yield repository.create(createRandomCompany());
+        yield repository.create(createRandomCompany());
+        var foundCompanies = yield repository.find();
+        expect(foundCompanies.length).to.equal(3);
+
+        yield repository.removeAll();
+
+        var companiesAfterRemove = yield repository.find();
+        expect(companiesAfterRemove.length).to.equal(0);
+        done();
+      })();
+    });
+  });
 
 });
 
