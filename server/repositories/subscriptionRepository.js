@@ -2,8 +2,8 @@
 
 var Subscription = require('../models/subscription');
 
-function create(offer) {
-  return Subscription.create(offer);
+function create(sbuscription) {
+  return Subscription.create(sbuscription);
 }
 
 function findOne(criteria) {

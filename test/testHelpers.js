@@ -24,7 +24,7 @@ function createRandomOffer() {
   };
 }
 
-function createRandomCompany(){
+function createRandomCompany() {
   return {
     name: chance.string(),
     url: chance.domain(),
@@ -33,5 +33,18 @@ function createRandomCompany(){
   };
 }
 
+function createRandomSubscription() {
+  return {
+    email: chance.email(),
+    salaryStart: chance.floating({min: 1, fixed: 2}),
+    salaryCurrency: chance.string(),
+    unsubscribeKey: chance.hash(),
+    subscribeToken: chance.hash(),
+    isValid: chance.bool(),
+    tags: [chance.string(), chance.string()]
+  };
+}
+
 module.exports.createRandomOffer = createRandomOffer;
 module.exports.createRandomCompany = createRandomCompany;
+module.exports.createRandomSubscription = createRandomSubscription;

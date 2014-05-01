@@ -8,7 +8,7 @@ var subscriptionSchema = new Schema({
   unsubscribeKey: String, // for unsubscribe
   subscribeToken: String, // for confirming subscription
   isValid: Boolean,
-  tags: { type: [String], index: true } 
+  tags: { type: [String], index: true } //TODO check warnings about flag index in mongoose docs
 });
 
 var Subscription = mongoose.model('Subscription', subscriptionSchema);

@@ -3,7 +3,15 @@
 var repository = require('../../server/repositories/subscriptionRepository'),
   chance = require('chance').Chance(),
   expect = require('chai').expect,
-  co = require('co');
+  co = require('co'),
+  _ = require('lodash'),
+  createRandomSubscription = require('../testHelpers').createRandomSubscription;
+
+function compareSubscription(subscription, savedsubscription) {
+  _.each(subscription, function (value, key) {
+    expect(value.toString()).to.equal(savedsubscription[key].toString(), key);
+  });
+}
 
 
 describe('subscriptionRepository', function () {
@@ -17,12 +25,11 @@ describe('subscriptionRepository', function () {
 
   describe("create", function () {
     it("should create and return new subscription", function (done) {
-      var email = chance.email();
-      var subscription = {email: email};
+      var subscription = createRandomSubscription();
 
       co(function * () {
         var savedSubscription = yield repository.create(subscription);
-        expect(savedSubscription.email).to.equal(email);
+        compareSubscription(subscription, savedSubscription);
         done();
       })();
     });
@@ -30,18 +37,18 @@ describe('subscriptionRepository', function () {
 
   describe("findOne", function () {
     it("should return subscription if subscription exists", function (done) {
-      var email = chance.email();
-      var subscription = {email: email};
-      
+      var subscription = createRandomSubscription();
+
       co(function * () {
         var savedSubscription = yield repository.create(subscription);
-        var foundSubscription = yield repository.findOne({email: email});
-        expect(email).to.equal(foundSubscription.email);
+        var foundSubscription = yield repository.findOne({email: subscription.email});
+
+        compareSubscription(subscription, foundSubscription);
         expect(savedSubscription._id.toString()).to.equal(foundSubscription._id.toString());
         done();
       })();
     });
-    
+
     it("should return null if subscription doesn't exist", function (done) {
       var email = chance.email();
 
@@ -63,18 +70,18 @@ describe('subscriptionRepository', function () {
     });
 
     it("should return all subscriptions sorted ascending", function (done) {
-      var emails = [chance.email(), chance.email(), chance.email()];
+      var subscriptions = [createRandomSubscription(), createRandomSubscription(), createRandomSubscription()];
 
       co(function * () {
-        yield repository.create({email: emails[0]});
-        yield repository.create({email: emails[1]});
-        yield repository.create({email: emails[2]});
-        var subscriptions = yield repository.find();
+        yield repository.create(subscriptions[0]);
+        yield repository.create(subscriptions[1]);
+        yield repository.create(subscriptions[2]);
+        var foundSubscriptions = yield repository.find();
 
-        emails.sort();
-        expect(subscriptions.length).to.equal(3);
-        emails.forEach(function (elem, index) {
-          expect(subscriptions[index].email).to.equal(elem);
+        var sortedSubscriptions = _.sortBy(subscriptions, "email");
+        expect(foundSubscriptions.length).to.equal(3);
+        sortedSubscriptions.forEach(function (elem, index) {
+          compareSubscription(elem, foundSubscriptions[index]);
         });
         done();
       })();
