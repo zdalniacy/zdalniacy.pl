@@ -4,8 +4,6 @@ var app = require('../index'),
   should = require('should'),
   request = require('supertest').agent(app.listen()),
   Offer = require('../server/models/offer.js'),
-  mongoose = require('mongoose'),
-//  connection = mongoose.connection,
   chance = require('chance').Chance();
 
 describe('Loading Main Page', function(){

@@ -9,6 +9,7 @@ after_script:
 - npm run coveralls
 - npm run codeclimate 
 - npm run cleancoverage
+- node ./node_modules/gulp/bin/gulp.js lint
 notifications:
   email:
   - galuszkak@gmail.com

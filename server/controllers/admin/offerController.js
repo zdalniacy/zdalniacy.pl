@@ -1,12 +1,10 @@
-var views = require('co-views'),
-  Offer = require('../../models/offer.js');
+"use strict";
+var offerRepository = require('../../repositories/offerRepository');
 
 function * offerList() {
-
-  this.body = yield Offer.find().sort('-title').exec();
-
+  this.body = yield offerRepository.find();
 }
 
 module.exports = {
-    offerList: offerList,
-}
+  offerList: offerList
+};

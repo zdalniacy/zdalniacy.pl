@@ -4,6 +4,7 @@
   "undef": true,
   "unused": true,
   "node": true,
+  "validthis": true,
   "globals": {
     "describe": true,
     "it": true,
@@ -13,6 +14,7 @@
     "before": true,
     "require": true,
     "module": true,
-    "process": true
+    "process": true,
+    "angular": true
   }
 }
