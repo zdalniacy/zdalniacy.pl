@@ -123,5 +123,46 @@ describe("companyRepository", function () {
     });
   });
 
+  describe("findByIdAndUpdate", function () {
+
+    it("should update company", function (done) {
+      var company = createRandomCompany();
+      var updateCompany = createRandomCompany();
+
+      co(function * () {
+        var savedCompany = yield repository.create(company);
+
+        var afterUpdateCompany = yield repository.findByIdAndUpdate(savedCompany._id, updateCompany);
+
+        compareCompany(updateCompany, afterUpdateCompany);
+
+        done();
+      })();
+    });
+
+    it("should unly update these properties which are passed", function (done) {
+      var company = createRandomCompany();
+      var propertiesToUpdate = {
+        name: chance.string(),
+        email: chance.email()
+      };
+
+      co(function * () {
+        var savedCompany = yield repository.create(company);
+
+        var afterUpdateOffer = yield repository.findByIdAndUpdate(savedCompany._id, propertiesToUpdate);
+
+        company.name = propertiesToUpdate.name;
+        company.email = propertiesToUpdate.email;
+
+        compareCompany(company, afterUpdateOffer);
+
+        done();
+      })();
+    });
+
+  });
+
+
 });
 

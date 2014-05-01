@@ -20,7 +20,12 @@ function removeAll() {
   };
 }
 
+function findByIdAndUpdate(id, updatedCompany) {
+  return Company.findByIdAndUpdate(id, {$set: updatedCompany}).exec();
+}
+
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
 module.exports.removeAll = removeAll;
+module.exports.findByIdAndUpdate = findByIdAndUpdate;
