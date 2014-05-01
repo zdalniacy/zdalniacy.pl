@@ -164,5 +164,37 @@ describe("companyRepository", function () {
   });
 
 
+  describe("remove", function () {
+    it("when one company matches should remove company and return 1", function (done) {
+      var company = createRandomCompany();
+
+      co(function * () {
+        var savedCompany = yield repository.create(company);
+        var result = yield repository.remove({_id: savedCompany._id});
+
+        var notExistsCompany = yield repository.findOne({_id: savedCompany._id});
+
+        expect(notExistsCompany).to.equal(null);
+        expect(result).to.equal(1);
+        done();
+      })();
+    });
+
+    it("when company doesn't exist should return 0", function (done) {
+      var company = createRandomCompany();
+
+      co(function * () {
+        var savedCompany = yield repository.create(company);
+        yield repository.remove({_id: savedCompany._id});
+        var documentsAffected = yield repository.remove({_id: savedCompany._id});
+
+
+        expect(documentsAffected).to.equal(0);
+        done();
+      })();
+    });
+
+  });
+
 });
 

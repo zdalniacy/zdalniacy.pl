@@ -24,8 +24,15 @@ function findByIdAndUpdate(id, updatedCompany) {
   return Company.findByIdAndUpdate(id, {$set: updatedCompany}).exec();
 }
 
+function remove(criteria) {
+  return function (call) {
+    Company.remove(criteria, call);
+  };
+}
+
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
 module.exports.removeAll = removeAll;
 module.exports.findByIdAndUpdate = findByIdAndUpdate;
+module.exports.remove = remove;
