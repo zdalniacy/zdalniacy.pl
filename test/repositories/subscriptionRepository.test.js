@@ -87,4 +87,64 @@ describe('subscriptionRepository', function () {
       })();
     });
   });
+
+  describe("findByIdAndUpdate", function () {
+
+    it("should update subscription", function (done) {
+      var subscription = createRandomSubscription();
+      var updateSubscription = createRandomSubscription();
+
+      co(function * () {
+        var savedSubscription = yield repository.create(subscription);
+
+        var afterUpdateSubscription = yield repository.findByIdAndUpdate(savedSubscription._id, updateSubscription);
+
+        compareSubscription(updateSubscription, afterUpdateSubscription);
+
+        done();
+      })();
+    });
+
+    it("should unly update these properties which are passed", function (done) {
+      var subscription = createRandomSubscription();
+      var propertiesToUpdate = {
+        unsubscribeKey: chance.hash(),
+        subscribeToken: chance.hash()
+      };
+
+      co(function * () {
+        var savedSubscription = yield repository.create(subscription);
+
+        var afterUpdateSubscription = yield repository.findByIdAndUpdate(savedSubscription._id, propertiesToUpdate);
+
+        subscription.unsubscribeKey = propertiesToUpdate.unsubscribeKey;
+        subscription.subscribeToken = propertiesToUpdate.subscribeToken;
+
+        compareSubscription(subscription, afterUpdateSubscription);
+
+        done();
+      })();
+
+    });
+
+    it("should update tags", function (done) {
+      var subscription = createRandomSubscription();
+      var tagsToUpdate = {
+        tags: [chance.string(), chance.string()]
+      };
+
+      co(function * () {
+        var savedSubscription = yield repository.create(subscription);
+
+        var afterUpdateSubscription = yield repository.findByIdAndUpdate(savedSubscription._id, tagsToUpdate);
+
+        expect(tagsToUpdate.tags.toString()).to.equal(afterUpdateSubscription.tags.toString());
+
+        done();
+      })();
+
+    });
+
+  });
+
 });

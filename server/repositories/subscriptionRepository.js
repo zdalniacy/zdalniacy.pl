@@ -16,13 +16,18 @@ function find(criteria) {
   return Subscription.find(criteria).sort('email').exec();
 }
 
-function removeAll(){
-  return function(call) {
+function removeAll() {
+  return function (call) {
     Subscription.collection.remove(call);
   };
+}
+
+function findByIdAndUpdate(id, updatedSubscription) {
+  return Subscription.findByIdAndUpdate(id, {$set: updatedSubscription}).exec();
 }
 
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
 module.exports.removeAll = removeAll;
+module.exports.findByIdAndUpdate = findByIdAndUpdate;
