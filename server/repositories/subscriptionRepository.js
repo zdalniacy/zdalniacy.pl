@@ -26,8 +26,15 @@ function findByIdAndUpdate(id, updatedSubscription) {
   return Subscription.findByIdAndUpdate(id, {$set: updatedSubscription}).exec();
 }
 
+function remove(criteria) {
+  return function (call) {
+    Subscription.remove(criteria, call);
+  };
+}
+
 module.exports.create = create;
 module.exports.findOne = findOne;
 module.exports.find = find;
 module.exports.removeAll = removeAll;
 module.exports.findByIdAndUpdate = findByIdAndUpdate;
+module.exports.remove = remove;

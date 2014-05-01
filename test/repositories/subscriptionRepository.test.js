@@ -147,4 +147,36 @@ describe('subscriptionRepository', function () {
 
   });
 
+  describe("remove", function () {
+    it("when one subscription matches should remove subscription and return 1", function (done) {
+      var subscription = createRandomSubscription();
+
+      co(function * () {
+        var savedSubscription = yield repository.create(subscription);
+        var result = yield repository.remove({_id: savedSubscription._id});
+
+        var notExistsSubscription = yield repository.findOne({_id: savedSubscription._id});
+
+        expect(notExistsSubscription).to.equal(null);
+        expect(result).to.equal(1);
+        done();
+      })();
+    });
+
+    it("when offer doesn't exist should return 0", function (done) {
+      var subscription = createRandomSubscription();
+
+      co(function * () {
+        var savedSubscription = yield repository.create(subscription);
+        yield repository.remove({_id: savedSubscription._id});
+        var documentsAffected = yield repository.remove({_id: savedSubscription._id});
+
+
+        expect(documentsAffected).to.equal(0);
+        done();
+      })();
+    });
+
+  });
+
 });
