@@ -9,11 +9,11 @@ function checkCommand(params) {
   }
 }
 
-function invoke(params) {
+function * invoke(params) {
   checkCommand(params);
 
   //TODO here call validate ???
-  params.command.execute(params.commandParams);
+  yield params.command.execute(params.commandParams);
 }
 
 module.exports.invoke = invoke;

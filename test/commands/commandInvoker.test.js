@@ -1,14 +1,12 @@
 "use strict";
 
 var commandInvoker = require('../../server/commands/commandInvoker'),
-  chance = require('chance').Chance(),
   expect = require('chai').expect,
-  co = require('co'),
-  _ = require('lodash');
+  co = require('co');
 
 
 var fakeCommandParams, commandWasCalled;
-function fakeExecute(params) {
+function * fakeExecute(params) {
   fakeCommandParams = params;
   commandWasCalled = true;
 }
@@ -29,38 +27,45 @@ describe("commandInvoker", function () {
     expect(commandInvoker.invoke).to.be.ok;
   });
 
-  it("should execute command with proper params", function () {
+  it("should execute command with proper params", function (done) {
     var commandParams = {};
     var invokerParams = {
       command: require('../commands/commandInvoker.test'),
       commandParams: commandParams
     };
 
-    commandInvoker.invoke(invokerParams);
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
 
-    expect(commandWasCalled).to.equal(true);
-    expect(fakeCommandParams).to.equal(commandParams);
+      expect(commandWasCalled).to.equal(true);
+      expect(fakeCommandParams).to.equal(commandParams);
+    })(done);
+
   });
 
-  it("should throw Error when command is not passed", function () {
+  it("should throw Error when command is not passed", function (done) {
 
-    var call = function () {
-      commandInvoker.invoke({});
-    };
-
-    expect(call).to.throw("The command is required");
+    co(function *() {
+      try {
+        yield commandInvoker.invoke({});
+      } catch (e) {
+        expect(e.message).to.equal('The command is required');
+        done();
+      }
+    })();
   });
 
-  it("should throw Error when command doesn't have method execute", function () {
+  it("should throw Error when command doesn't have method execute", function (done) {
 
-    var call = function () {
-      commandInvoker.invoke({command: {}});
-    };
-
-    expect(call).to.throw("The command doesn't have method 'execute'");
+    co(function *() {
+      try {
+        yield commandInvoker.invoke({command: {}});
+      } catch (e) {
+        expect(e.message).to.equal("The command doesn't have method 'execute'");
+        done();
+      }
+    })();
   });
-
-
 });
 
 
