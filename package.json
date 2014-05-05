@@ -17,7 +17,8 @@
     "koa-passport": "~0.2.0",
     "passport-github": "~0.1.5",
     "koa-sess": "~0.3.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "q": "~1.0.1"
   },
   "devDependencies": {
     "co": "*",

@@ -2,20 +2,24 @@
 
 var commandInvoker = require('../../server/commands/commandInvoker'),
   expect = require('chai').expect,
-  co = require('co');
+  co = require('co'),
+  Q = require('q');
 
 
-var fakeCommandParams, commandWasCalled;
-function * fakeExecute(params) {
-  fakeCommandParams = params;
-  commandWasCalled = true;
+var deferred;
+
+function fakeExecute(params) {
+  setTimeout(function () {
+    deferred.resolve({commandWasCalled: true, fakeCommandParams: params});
+  }, 10);
+
+  return deferred.promise;
 }
 
 describe("commandInvoker", function () {
 
   beforeEach(function () {
-    fakeCommandParams = null;
-    commandWasCalled = false;
+    deferred = Q.defer();
   });
 
   it("should exists", function (done) {
@@ -35,10 +39,10 @@ describe("commandInvoker", function () {
     };
 
     co(function * () {
-      yield commandInvoker.invoke(invokerParams);
+      var result = yield commandInvoker.invoke(invokerParams);
 
-      expect(commandWasCalled).to.equal(true);
-      expect(fakeCommandParams).to.equal(commandParams);
+      expect(result.commandWasCalled).to.equal(true);
+      expect(result.fakeCommandParams).to.equal(commandParams);
     })(done);
 
   });
@@ -50,9 +54,8 @@ describe("commandInvoker", function () {
         yield commandInvoker.invoke({});
       } catch (e) {
         expect(e.message).to.equal('The command is required');
-        done();
       }
-    })();
+    })(done);
   });
 
   it("should throw Error when command doesn't have method execute", function (done) {
@@ -62,9 +65,8 @@ describe("commandInvoker", function () {
         yield commandInvoker.invoke({command: {}});
       } catch (e) {
         expect(e.message).to.equal("The command doesn't have method 'execute'");
-        done();
       }
-    })();
+    })(done);
   });
 });
 
