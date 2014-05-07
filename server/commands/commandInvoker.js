@@ -13,8 +13,7 @@ function * invoke(params) {
   checkCommand(params);
 
   //TODO here call validate ???
-  var result = yield params.command.execute(params.commandParams);
-  return result;
+  return yield params.command.execute(params.commandParams);
 }
 
 module.exports.invoke = invoke;
