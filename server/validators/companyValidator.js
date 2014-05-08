@@ -2,7 +2,7 @@
 
 var validator = require('./validator');
 
-var comapnyValidationRules = {
+var validationRules = {
   name: ["required"],
   url: ["url"],
   phone: ["phone"],
@@ -11,7 +11,7 @@ var comapnyValidationRules = {
 
 
 function validate(company) {
-  return validator.validate(comapnyValidationRules, company);
+  return validator.validate(validationRules, company);
 }
 
 module.exports.validate = validate;

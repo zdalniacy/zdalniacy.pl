@@ -98,12 +98,10 @@ describe("companyValidator", function () {
 
   describe("validate should not errors", function () {
     it("when company is ok", function () {
-      it("is invalid", function () {
-        var company = testHelpers.createRandomCompany();
-        var errors = companyValidator.validate(company);
+      var company = testHelpers.createRandomCompany();
+      var errors = companyValidator.validate(company);
 
-        expect(errors.length).to.equal(0);
-      });
+      expect(errors.length).to.equal(0);
     });
   });
 });

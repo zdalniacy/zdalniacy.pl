@@ -6,8 +6,8 @@ function createRandomOffer() {
   return {
     title: chance.string(),
     description: chance.string(),
-    salaryStart: chance.floating({min: 1, fixed: 2}),
-    salaryEnd: chance.floating({min: 1, fixed: 2}),
+    salaryStart: "" + chance.floating({min: 1, fixed: 2}),
+    salaryEnd: "" + chance.floating({min: 1, fixed: 2}),
     createDate: chance.date(),
     moderationDate: chance.date(),
     publishDate: chance.date(),

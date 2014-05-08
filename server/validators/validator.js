@@ -31,11 +31,17 @@ function getValidationMethod(rule) {
   return function (fieldName, obj) {
     var value = obj[fieldName];
     if (value) {
-      value = value.trim();
+      if (value.trim) {
+        value = value.trim();
+      }
       return rule(value);
     }
     return true;
   };
+}
+
+function float(value) {
+  return validator.isFloat(value);
 }
 
 var validationMethods = {
@@ -54,6 +60,10 @@ var validationMethods = {
   email: {
     method: getValidationMethod(email),
     message: 'Nieprawidłowy adres email'
+  },
+  float: {
+    method: getValidationMethod(float),
+    message: 'Pole musi być liczbą'
   }
 };
 
