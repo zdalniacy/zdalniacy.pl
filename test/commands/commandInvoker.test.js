@@ -68,6 +68,45 @@ describe("commandInvoker", function () {
       }
     })(done);
   });
+
+  it("when validator is passed should call method validate", function (done) {
+    var commandParams = {};
+    var validationParams;
+    var validatorWasCalled;
+    var invokerParams = {
+      command: require('../commands/commandInvoker.test'),
+      validator: {validate: function (params) {
+        validatorWasCalled = true;
+        validationParams = params;
+      }},
+      commandParams: commandParams
+    };
+
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
+
+      expect(validatorWasCalled).to.equal(true);
+      expect(validationParams).to.equal(commandParams);
+    })(done);
+  });
+
+  it("when validator return errros should return object with errors", function (done) {
+    var errors = ["test"];
+    var invokerParams = {
+      command: require('../commands/commandInvoker.test'),
+      validator: {validate: function () {
+        return errors;
+      }},
+      commandParams: {}
+    };
+
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      expect(result.status).to.equal(false);
+      expect(result.errors).to.equal(errors);
+    })(done);
+  });
 });
 
 

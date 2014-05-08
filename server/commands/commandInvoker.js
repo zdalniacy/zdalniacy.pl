@@ -9,10 +9,29 @@ function checkCommand(params) {
   }
 }
 
+function validate(params) {
+  if (params.validator) {
+    return params.validator.validate(params.commandParams);
+  }
+  return null;
+}
+
+function areErrors(errors) {
+  return errors && errors.length > 0;
+}
+
 function * invoke(params) {
   checkCommand(params);
 
-  //TODO here call validate ???
+  var errors = validate(params);
+
+  if (areErrors(errors)) {
+    return {
+      status: false,
+      errors: errors
+    };
+  }
+
   return yield params.command.execute(params.commandParams);
 }
 
