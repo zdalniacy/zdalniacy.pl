@@ -24,9 +24,12 @@ function validate(params) {
 }
 
 function execute(params) {
-
+  return {
+    status: true,
+    company: {},
+    offer: {}
+  };
 }
-
 
 module.exports.execute = execute;
 module.exports.validate = validate;

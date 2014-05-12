@@ -2,6 +2,9 @@
 
 var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
   commandInvoker = require('../../../server/commands/commandInvoker'),
+  companyRepository = require('../../../server/repositories/companyRepository'),
+  offerRepository = require('../../../server/repositories/offerRepository'),
+  testHelpers = require('../../testHelpers'),
   co = require('co'),
   expect = require('chai').expect;
 
@@ -9,10 +12,15 @@ describe("addOfferCommand", function () {
 
   var invokerParams;
 
-  beforeEach(function () {
+  beforeEach(function (done) {
     invokerParams = {
       command: addOfferCommand
     };
+    co(function * () {
+      yield companyRepository.removeAll();
+      yield offerRepository.removeAll();
+    })(done);
+
   });
 
   it("should exist and have methods execute and validate", function () {
@@ -59,8 +67,16 @@ describe("addOfferCommand", function () {
     })(done);
   });
 
-  it("should not add offer", function () {
+  it("should add company and offer", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
 
+      expect(result.status).to.equal(true);
+      expect(result.company).to.be.ok;
+      expect(result.offer).to.be.ok;
+
+    })(done);
   });
 
 });
