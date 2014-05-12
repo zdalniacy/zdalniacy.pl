@@ -91,8 +91,27 @@ describe("commandInvoker", function () {
     })(done);
   });
 
-  it("when validator return errros should return object with errors", function (done) {
+  it("when validator return array of errors should return object with errors", function (done) {
     var errors = ["test"];
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function () {
+      return errors;
+    };
+    var invokerParams = {
+      command: command,
+      commandParams: {}
+    };
+
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      expect(result.status).to.equal(false);
+      expect(result.errors).to.equal(errors);
+    })(done);
+  });
+
+  it("when validator return object of errors should return object with errors", function (done) {
+    var errors = {};
     var command = require('../commands/commandInvoker.test');
     command.validate = function () {
       return errors;

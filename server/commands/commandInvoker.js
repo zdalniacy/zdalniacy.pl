@@ -17,7 +17,13 @@ function validate(params) {
 }
 
 function areErrors(errors) {
-  return errors && errors.length > 0;
+  if (errors) {
+    if (Array.isArray(errors)) {
+      return errors.length > 0;
+    }
+    return true;
+  }
+  return false;
 }
 
 function * invoke(params) {
