@@ -10,8 +10,8 @@ function checkCommand(params) {
 }
 
 function validate(params) {
-  if (params.validator) {
-    return params.validator.validate(params.commandParams);
+  if (params.command.validate) {
+    return params.command.validate(params.commandParams);
   }
   return null;
 }

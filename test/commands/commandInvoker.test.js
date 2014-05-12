@@ -73,12 +73,13 @@ describe("commandInvoker", function () {
     var commandParams = {};
     var validationParams;
     var validatorWasCalled;
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function (params) {
+      validatorWasCalled = true;
+      validationParams = params;
+    };
     var invokerParams = {
-      command: require('../commands/commandInvoker.test'),
-      validator: {validate: function (params) {
-        validatorWasCalled = true;
-        validationParams = params;
-      }},
+      command: command,
       commandParams: commandParams
     };
 
@@ -92,11 +93,12 @@ describe("commandInvoker", function () {
 
   it("when validator return errros should return object with errors", function (done) {
     var errors = ["test"];
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function () {
+      return errors;
+    };
     var invokerParams = {
-      command: require('../commands/commandInvoker.test'),
-      validator: {validate: function () {
-        return errors;
-      }},
+      command: command,
       commandParams: {}
     };
 
