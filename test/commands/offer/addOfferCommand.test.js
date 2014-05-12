@@ -10,12 +10,12 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
 
 describe("addOfferCommand", function () {
 
-  var invokerParams;
+  var invokerParams = {
+    command: addOfferCommand
+  };
 
-  beforeEach(function (done) {
-    invokerParams = {
-      command: addOfferCommand
-    };
+  before(function (done) {
+
     co(function * () {
       yield companyRepository.removeAll();
       yield offerRepository.removeAll();
