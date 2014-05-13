@@ -5,6 +5,7 @@ var offerValidator = require('../../validators/offerValidator');
 var companyRepository = require('../../repositories/companyRepository');
 var offerRepository = require('../../repositories/offerRepository');
 var dateTimeService = require('../../services/utils/dateTimeService');
+var slugService = require('../../services/utils/slugService');
 
 function areErrors(companyErrors, offerErrors) {
   return (companyErrors && companyErrors.length > 0) ||
@@ -26,15 +27,28 @@ function validate(params) {
   return null;
 }
 
-function * execute(params) {
+function * createSlug(name) {
+  var existingOffer;
+  var slug;
+  var number = 1;
+  var postFix;
+  slug = slugService.createSlug(name);
+  do {
+    postFix = (number > 1) ? number : '';
+    existingOffer = yield offerRepository.findOne({slug: slug + postFix});
+    number += 1;
+  } while (existingOffer !== null);
+  return slug + postFix;
+}
 
-  var company = yield companyRepository.create(params.company);
+function prepareOffer(params, company, slug) {
+  var offer = params.offer;
+  offer.company = company;
+  offer.createDate = dateTimeService.toUtc(dateTimeService.getNow());
+  offer.slug = slug;
+}
 
-  params.offer.company = company;
-  params.offer.createDate = dateTimeService.toUtc(dateTimeService.getNow());
-
-  var offer = yield offerRepository.create(params.offer);
-
+function createResult(company, offer) {
   return {
     status: true,
     company: {
@@ -44,6 +58,15 @@ function * execute(params) {
       _id: offer._id
     }
   };
+}
+
+function * execute(params) {
+
+  var company = yield companyRepository.create(params.company);
+  var slug = yield createSlug(params.offer.name);
+  prepareOffer(params, company, slug);
+  var offer = yield offerRepository.create(params.offer);
+  return createResult(company, offer);
 }
 
 module.exports.execute = execute;

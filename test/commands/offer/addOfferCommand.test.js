@@ -118,10 +118,38 @@ describe("addOfferCommand", function () {
       var result = yield commandInvoker.invoke(invokerParams);
       var offer = yield offerRepository.findOne({_id: result.offer._id});
 
-      console.log(offer.createDate);
       expect(offer.createDate).to.be.ok;
       expect(offer.createDate.toString()).to.equal(now.toString());
 
+    })(done);
+  });
+
+  it("should set slug", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams.offer.name = "New śćółęąźżńć offer";
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      expect(offer.slug).to.be.ok;
+      expect(offer.slug).to.equal("new-scoleazznc-offer");
+
+
+    })(done);
+  });
+
+  it("should set slug which is unique", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams.offer.name = "existing name";
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      expect(offer.slug).to.be.ok;
+      expect(offer.slug).to.equal("existing-name2");
 
     })(done);
   });

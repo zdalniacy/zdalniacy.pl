@@ -20,7 +20,8 @@
     "lodash": "~2.4.1",
     "q": "~1.0.1",
     "validator": "~3.11.2",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "speakingurl": "~0.9.1"
   },
   "devDependencies": {
     "co": "*",
