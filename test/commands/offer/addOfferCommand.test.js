@@ -74,7 +74,16 @@ describe("addOfferCommand", function () {
 
       expect(result.status).to.equal(true);
       expect(result.company).to.be.ok;
+      expect(result.company._id).to.be.ok;
       expect(result.offer).to.be.ok;
+      expect(result.offer._id).to.be.ok;
+
+      var company = yield companyRepository.findOne({_id: result.company._id});
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      expect(company).to.be.ok;
+      expect(offer).to.be.ok;
+      expect(offer.company._id.toString()).to.equal(company._id.toString());
 
     })(done);
   });
