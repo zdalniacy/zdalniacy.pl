@@ -4,6 +4,7 @@ var companyValidator = require('../../validators/companyValidator');
 var offerValidator = require('../../validators/offerValidator');
 var companyRepository = require('../../repositories/companyRepository');
 var offerRepository = require('../../repositories/offerRepository');
+var dateTimeService = require('../../services/utils/dateTimeService');
 
 function areErrors(companyErrors, offerErrors) {
   return (companyErrors && companyErrors.length > 0) ||
@@ -28,7 +29,10 @@ function validate(params) {
 function * execute(params) {
 
   var company = yield companyRepository.create(params.company);
+
   params.offer.company = company;
+  params.offer.createDate = dateTimeService.toUtc(dateTimeService.getNow());
+
   var offer = yield offerRepository.create(params.offer);
 
   return {

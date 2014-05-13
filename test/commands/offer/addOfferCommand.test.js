@@ -4,6 +4,7 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
   commandInvoker = require('../../../server/commands/commandInvoker'),
   companyRepository = require('../../../server/repositories/companyRepository'),
   offerRepository = require('../../../server/repositories/offerRepository'),
+  dateTimeService = require('../../../server/services/utils/dateTimeService'),
   testHelpers = require('../../testHelpers'),
   co = require('co'),
   expect = require('chai').expect;
@@ -21,6 +22,21 @@ describe("addOfferCommand", function () {
       yield offerRepository.removeAll();
     })(done);
 
+  });
+
+  var oldGetNow;
+  var now;
+
+  beforeEach(function () {
+    oldGetNow = dateTimeService.getNow;
+    now = new Date();
+    dateTimeService.getNow = function () {
+      return now;
+    };
+  });
+
+  afterEach(function () {
+    dateTimeService.getNow = oldGetNow;
   });
 
   it("should exist and have methods execute and validate", function () {
@@ -72,18 +88,40 @@ describe("addOfferCommand", function () {
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
 
-      expect(result.status).to.equal(true);
-      expect(result.company).to.be.ok;
-      expect(result.company._id).to.be.ok;
-      expect(result.offer).to.be.ok;
-      expect(result.offer._id).to.be.ok;
-
       var company = yield companyRepository.findOne({_id: result.company._id});
       var offer = yield offerRepository.findOne({_id: result.offer._id});
 
       expect(company).to.be.ok;
       expect(offer).to.be.ok;
       expect(offer.company._id.toString()).to.equal(company._id.toString());
+
+    })(done);
+  });
+
+  it("should add company and offer and return proper result", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      expect(result.status).to.equal(true);
+      expect(result.company).to.be.ok;
+      expect(result.company._id).to.be.ok;
+      expect(result.offer).to.be.ok;
+      expect(result.offer._id).to.be.ok;
+
+    })(done);
+  });
+
+  it("should set createDate", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      console.log(offer.createDate);
+      expect(offer.createDate).to.be.ok;
+      expect(offer.createDate.toString()).to.equal(now.toString());
+
 
     })(done);
   });
