@@ -61,8 +61,13 @@ function createResult(company, offer) {
 }
 
 function * execute(params) {
+  var company;
 
-  var company = yield companyRepository.create(params.company);
+  company = yield companyRepository.findOne(params.company);
+  if (!company) {
+    company = yield companyRepository.create(params.company);
+  }
+
   var slug = yield createSlug(params.offer.name);
   prepareOffer(params, company, slug);
   var offer = yield offerRepository.create(params.offer);

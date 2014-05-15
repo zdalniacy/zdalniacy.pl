@@ -154,4 +154,31 @@ describe("addOfferCommand", function () {
     })(done);
   });
 
+
+  it("should create offer with company", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      expect(offer.company._id.toString()).to.equal(result.company._id.toString());
+
+    })(done);
+
+  });
+
+  it("should create offer and use existing comapny", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      var firstResult = yield commandInvoker.invoke(invokerParams);
+      var secondResult = yield commandInvoker.invoke(invokerParams);
+
+      var offer = yield offerRepository.findOne({_id: secondResult.offer._id});
+
+      expect(offer.company._id.toString()).to.equal(firstResult.company._id.toString());
+
+    })(done);
+  });
+
 });
