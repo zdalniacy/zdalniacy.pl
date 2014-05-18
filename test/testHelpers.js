@@ -2,12 +2,30 @@
 
 var chance = require('chance').Chance();
 
+function createAddOfferRandomUserInput() {
+  return {
+    company: {
+      name: chance.string(),
+      url: chance.domain(),
+      phone: chance.phone(),
+      email: chance.email()
+    },
+    offer: {
+      title: chance.string(),
+      description: chance.string(),
+      salaryStart: "" + chance.floating({min: 1, fixed: 2}),
+      salaryEnd: "" + chance.floating({min: 1, fixed: 2}),
+      tags: [chance.string(), chance.string()]
+    }
+  };
+}
+
 function createRandomOffer() {
   return {
     title: chance.string(),
     description: chance.string(),
-    salaryStart: chance.floating({min: 1, fixed: 2}),
-    salaryEnd: chance.floating({min: 1, fixed: 2}),
+    salaryStart: "" + chance.floating({min: 1, fixed: 2}),
+    salaryEnd: "" + chance.floating({min: 1, fixed: 2}),
     createDate: chance.date(),
     moderationDate: chance.date(),
     publishDate: chance.date(),
@@ -48,3 +66,4 @@ function createRandomSubscription() {
 module.exports.createRandomOffer = createRandomOffer;
 module.exports.createRandomCompany = createRandomCompany;
 module.exports.createRandomSubscription = createRandomSubscription;
+module.exports.createAddOfferRandomUserInput = createAddOfferRandomUserInput;
