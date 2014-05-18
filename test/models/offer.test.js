@@ -35,12 +35,12 @@ describe('Offer model', function () {
     })();
   });
 
-  it("should update Offer object", function (done) {
-    done();
-  });
-
-  it("should delete Offer object", function (done) {
-    done();
-  });
-
+  // it("should update Offer object", function (done) {
+  //   done();
+  // });
+  //
+  // it("should delete Offer object", function (done) {
+  //   done();
+  // });
+  
 });
