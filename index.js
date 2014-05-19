@@ -5,8 +5,7 @@ var serve = require('koa-static'),
   //authorize = require('./server/routes/authorize'),
   app = module.exports = koa();
 
-var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-var config = require('./server/config/config')[env];
+var config = require('./server/config/config').getConfig();
 require('./server/config/mongoose')(config);
 
 app.use(serve(__dirname + '/public'));

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export GITHUB_CLIENT_ID=xxx
+export GITHUB_CLIENT_SECRET=xxx
+export EMAIL_USER=xxx
+export EMAIL_PASSWORD=xxx

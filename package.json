@@ -21,7 +21,8 @@
     "q": "~1.0.1",
     "validator": "~3.11.2",
     "moment": "~2.6.0",
-    "speakingurl": "~0.9.1"
+    "speakingurl": "~0.9.1",
+    "nodemailer": "~0.6.5"
   },
   "devDependencies": {
     "co": "*",
