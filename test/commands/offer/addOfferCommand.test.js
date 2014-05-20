@@ -7,7 +7,9 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
   dateTimeService = require('../../../server/services/utils/dateTimeService'),
   testHelpers = require('../../testHelpers'),
   co = require('co'),
-  expect = require('chai').expect;
+  expect = require('chai').expect,
+  emailService = require('../../../server/services/infrastructure/emailService'),
+  util = require('util');
 
 describe("addOfferCommand", function () {
 
@@ -26,6 +28,13 @@ describe("addOfferCommand", function () {
 
   var oldGetNow;
   var now;
+  var oldSendNoReplyEmail;
+  var emailParams;
+
+  function * newSendNoReplyEmail(params) {
+    emailParams = params;
+    return true;
+  }
 
   beforeEach(function () {
     oldGetNow = dateTimeService.getNow;
@@ -33,10 +42,14 @@ describe("addOfferCommand", function () {
     dateTimeService.getNow = function () {
       return now;
     };
+    emailParams = {};
+    oldSendNoReplyEmail = emailService.sendNoReplyEmail;
+    emailService.sendNoReplyEmail = newSendNoReplyEmail;
   });
 
   afterEach(function () {
     dateTimeService.getNow = oldGetNow;
+    emailService.sendNoReplyEmail = oldSendNoReplyEmail;
   });
 
   it("should exist and have methods execute and validate", function () {
@@ -180,5 +193,24 @@ describe("addOfferCommand", function () {
 
     })(done);
   });
+
+  it("should send confirm email to user", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
+
+      expect(emailParams).to.be.ok;
+      expect(emailParams.to).to.equal(invokerParams.commandParams.company.email);
+      expect(emailParams.subject).to.equal('Potwierdzenie żłozenia oferty');
+
+      var expectedHtml = util.format("<p>Potwierdzenie złożenia oferty o tytule <b>%s</b>. " +
+          "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
+          "<p>Proszę nie odpowiadać na tę wiadomość.</p>",
+        invokerParams.commandParams.offer.title);
+
+      expect(emailParams.html).to.equal(expectedHtml);
+    })(done);
+  });
+
 
 });

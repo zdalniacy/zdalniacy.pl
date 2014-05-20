@@ -6,6 +6,7 @@ var companyRepository = require('../../repositories/companyRepository');
 var offerRepository = require('../../repositories/offerRepository');
 var dateTimeService = require('../../services/utils/dateTimeService');
 var slugService = require('../../services/utils/slugService');
+var addOfferEmailService = require('../../services/offer/addOfferEmailService');
 
 function areErrors(companyErrors, offerErrors) {
   return (companyErrors && companyErrors.length > 0) ||
@@ -71,6 +72,7 @@ function * execute(params) {
   var slug = yield createSlug(params.offer.name);
   prepareOffer(params, company, slug);
   var offer = yield offerRepository.create(params.offer);
+  yield addOfferEmailService.sendOfferWasAddedConfirmEmail(offer, company);
   return createResult(company, offer);
 }
 
