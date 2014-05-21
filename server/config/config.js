@@ -1,7 +1,11 @@
 "use strict";
 
+var path = require('path');
+var rootPath = path.normalize(__dirname + "/../../");
+
 var configuration = {
   development: {
+    rootPath: rootPath,
     port: process.env.PORT || 3000,
     githubClientId: process.env.GITHUB_CLIENT_ID,
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -15,6 +19,7 @@ var configuration = {
     }
   },
   production: {
+    rootPath: rootPath,
     port: process.env.PORT || 80,
     githubClientId: process.env.GITHUB_CLIENT_ID,
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,

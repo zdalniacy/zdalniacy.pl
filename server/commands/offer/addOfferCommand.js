@@ -73,6 +73,7 @@ function * execute(params) {
   prepareOffer(params, company, slug);
   var offer = yield offerRepository.create(params.offer);
   yield addOfferEmailService.sendOfferWasAddedConfirmEmail(offer, company);
+  yield addOfferEmailService.notifyModeratorsOfferWasAdded(offer, company);
   return createResult(company, offer);
 }
 

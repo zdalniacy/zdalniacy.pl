@@ -16,6 +16,10 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 
 
 function sendEmail(params) {
+  if (!params.text) {
+    params.generateTextFromHTML = true;
+  }
+
   return function (call) {
     smtpTransport.sendMail(params, call);
   };

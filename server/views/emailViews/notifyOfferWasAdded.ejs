@@ -1,0 +1,10 @@
+<h3>Dodano następującą ofertę</h3>
+<p>Tytuł: <%= offer.title %></p>
+<p>Opis:  <%= offer.description %></p>
+<p>Stawka od: <%= offer.salaryStart %></p>
+<p>Stawka do: <%= offer.salaryEnd %></p>
+<p>Tagi:  <%= offer.tags %></p>
+<h3>Ofert złożona przez</h3>
+<p>Nazwa:  <%= company.name %></p>
+<p>Email:  <%= company.email %></p>
+<p>Kliknij na link aby zatwierdzić. <a href="<%= approveUrl %>">Zatwierdź</a></p>

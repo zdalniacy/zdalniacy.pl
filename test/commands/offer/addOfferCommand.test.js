@@ -9,7 +9,11 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
   co = require('co'),
   expect = require('chai').expect,
   emailService = require('../../../server/services/infrastructure/emailService'),
-  util = require('util');
+  util = require('util'),
+  views = require('co-views'),
+  config = require('../../../server/config/config').getConfig(),
+  rootPath = config.rootPath,
+  render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
 
 describe("addOfferCommand", function () {
 
@@ -29,10 +33,17 @@ describe("addOfferCommand", function () {
   var oldGetNow;
   var now;
   var oldSendNoReplyEmail;
-  var emailParams;
+  var oldSendEmailToModerators;
+  var sendNoReplyEmailParams;
+  var sendEmailToModeratorsParams;
 
-  function * newSendNoReplyEmail(params) {
-    emailParams = params;
+  function * sendNoReplyEmailFake(params) {
+    sendNoReplyEmailParams = params;
+    return true;
+  }
+
+  function * sendEmailToModeratorsFake(params) {
+    sendEmailToModeratorsParams = params;
     return true;
   }
 
@@ -42,14 +53,17 @@ describe("addOfferCommand", function () {
     dateTimeService.getNow = function () {
       return now;
     };
-    emailParams = {};
+    sendNoReplyEmailParams = {};
     oldSendNoReplyEmail = emailService.sendNoReplyEmail;
-    emailService.sendNoReplyEmail = newSendNoReplyEmail;
+    oldSendEmailToModerators = emailService.sendEmailToModerators;
+    emailService.sendNoReplyEmail = sendNoReplyEmailFake;
+    emailService.sendEmailToModerators = sendEmailToModeratorsFake;
   });
 
   afterEach(function () {
     dateTimeService.getNow = oldGetNow;
     emailService.sendNoReplyEmail = oldSendNoReplyEmail;
+    emailService.sendEmailToModerators = oldSendEmailToModerators;
   });
 
   it("should exist and have methods execute and validate", function () {
@@ -199,34 +213,32 @@ describe("addOfferCommand", function () {
     co(function * () {
       yield commandInvoker.invoke(invokerParams);
 
-      expect(emailParams).to.be.ok;
-      expect(emailParams.to).to.equal(invokerParams.commandParams.company.email);
-      expect(emailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
+      expect(sendNoReplyEmailParams).to.be.ok;
+      expect(sendNoReplyEmailParams.to).to.equal(invokerParams.commandParams.company.email);
+      expect(sendNoReplyEmailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
 
-      var expectedHtml = util.format("<p>Potwierdzenie przyjęcia oferty o tytule <b>%s</b>. " +
-          "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
-          "<p>Prosimy nie odpowiadać na tę wiadomość.</p>",
-        invokerParams.commandParams.offer.title);
-
-      expect(emailParams.html).to.equal(expectedHtml);
+      var expectedHtml = yield render('confirmAddNewOffer', { offer: invokerParams.commandParams.offer});
+      expect(sendNoReplyEmailParams.html).to.equal(expectedHtml);
     })(done);
   });
 
-  it("should send notify email to admin", function (done) {
+  it("should send notify email to moderators", function (done) {
     invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
     co(function * () {
-      yield commandInvoker.invoke(invokerParams);
+      var result = yield commandInvoker.invoke(invokerParams);
 
-      expect(emailParams).to.be.ok;
-      expect(emailParams.to).to.equal(invokerParams.commandParams.company.email);
-      expect(emailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
+      var expectedTitle = util.format('Dodano ofertę %s (%s)', invokerParams.commandParams.offer.title, result.offer._id.toString());
+      expect(sendEmailToModeratorsParams.subject).to.equal(expectedTitle);
 
-      var expectedHtml = util.format("<p>Potwierdzenie przyjęcia oferty o tytule <b>%s</b>. " +
-          "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
-          "<p>Prosimy nie odpowiadać na tę wiadomość.</p>",
-        invokerParams.commandParams.offer.title);
+      invokerParams.commandParams.offer._id = result.offer._id.toString();
+      invokerParams.commandParams.offer.tags = invokerParams.commandParams.offer.tags.join(', ');
 
-      expect(emailParams.html).to.equal(expectedHtml);
+      var expectedHtml = yield render('notifyOfferWasAdded', {
+        offer: invokerParams.commandParams.offer,
+        company: invokerParams.commandParams.company,
+        approveUrl: "http://onet.pl"});
+
+      expect(sendEmailToModeratorsParams.html).to.equal(expectedHtml);
     })(done);
   });
 });

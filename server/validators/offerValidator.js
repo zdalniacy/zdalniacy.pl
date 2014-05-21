@@ -10,6 +10,7 @@ var validationRules = {
 };
 
 function validate(offer) {
+  //TODO dorobić sprawdzanie XSS
   return validator.validate(validationRules, offer);
 }
 
