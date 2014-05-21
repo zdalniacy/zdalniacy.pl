@@ -201,16 +201,32 @@ describe("addOfferCommand", function () {
 
       expect(emailParams).to.be.ok;
       expect(emailParams.to).to.equal(invokerParams.commandParams.company.email);
-      expect(emailParams.subject).to.equal('Potwierdzenie żłozenia oferty');
+      expect(emailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
 
-      var expectedHtml = util.format("<p>Potwierdzenie złożenia oferty o tytule <b>%s</b>. " +
+      var expectedHtml = util.format("<p>Potwierdzenie przyjęcia oferty o tytule <b>%s</b>. " +
           "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
-          "<p>Proszę nie odpowiadać na tę wiadomość.</p>",
+          "<p>Prosimy nie odpowiadać na tę wiadomość.</p>",
         invokerParams.commandParams.offer.title);
 
       expect(emailParams.html).to.equal(expectedHtml);
     })(done);
   });
 
+  it("should send notify email to admin", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
 
+      expect(emailParams).to.be.ok;
+      expect(emailParams.to).to.equal(invokerParams.commandParams.company.email);
+      expect(emailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
+
+      var expectedHtml = util.format("<p>Potwierdzenie przyjęcia oferty o tytule <b>%s</b>. " +
+          "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
+          "<p>Prosimy nie odpowiadać na tę wiadomość.</p>",
+        invokerParams.commandParams.offer.title);
+
+      expect(emailParams.html).to.equal(expectedHtml);
+    })(done);
+  });
 });

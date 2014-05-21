@@ -5,10 +5,10 @@ var util = require('util');
 
 
 var confirmEmailContent = {
-  subject: 'Potwierdzenie żłozenia oferty',
-  html: "<p>Potwierdzenie złożenia oferty o tytule <b>%s</b>. " +
+  subject: 'Potwierdzenie przyjęcia oferty',
+  html: "<p>Potwierdzenie przyjęcia oferty o tytule <b>%s</b>. " +
     "Oferta oczekuję na akceptację. Poinformujęmy Cię gdy zostanie zaakceptowana</p>" +
-    "<p>Proszę nie odpowiadać na tę wiadomość.</p>"
+    "<p>Prosimy nie odpowiadać na tę wiadomość.</p>"
 };
 
 function getSendOfferWasAddedConfirmEmailOptions(offer, company) {

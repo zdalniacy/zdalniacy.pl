@@ -10,6 +10,7 @@ var configuration = {
       user: process.env.EMAIL_USER,
       password: process.env.EMAIL_PASSWORD,
       noReplyEmail: 'testus@zdalniacy.pl',
+      moderatorEmails: ['testus@zdalniacy.pl'],
       server: 'mail.zdalniacy.pl'
     }
   },
@@ -22,6 +23,7 @@ var configuration = {
       user: process.env.EMAIL_USER,
       password: process.env.EMAIL_PASSWORD,
       noReplyEmail: 'testus@zdalniacy.pl',
+      moderatorEmails: ['testus@zdalniacy.pl'],
       server: 'mail.zdalniacy.pl'
     }
   }

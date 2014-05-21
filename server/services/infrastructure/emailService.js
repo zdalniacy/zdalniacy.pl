@@ -30,6 +30,15 @@ function sendNoReplyEmail(params) {
   return sendEmail(params);
 }
 
+function getModeratorEmails() {
+  return config.email.moderatorEmails.join(', ');
+}
+
+function sendEmailToModerators(params) {
+  params.to = getModeratorEmails();
+  return sendNoReplyEmail(params);
+}
+
 //{
 //  from: "Fred Foo ✔ <foo@blurdybloop.com>", // sender address
 //  to: "bar@blurdybloop.com, baz@blurdybloop.com", // list of receivers
@@ -40,3 +49,4 @@ function sendNoReplyEmail(params) {
 //}
 module.exports.sendEmail = sendEmail;
 module.exports.sendNoReplyEmail = sendNoReplyEmail;
+module.exports.sendEmailToModerators = sendEmailToModerators;

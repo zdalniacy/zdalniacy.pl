@@ -35,5 +35,18 @@ describe("emailService", function () {
       })(done);
     });
   });
+
+
+  describe("sendEmailToModerators", function () {
+    it("should send email from no reply email address to moderators", function (done) {
+      co(function * () {
+        emailParams.from = null;
+        emailParams.subject = "No reply";
+        var result = yield emailService.sendEmailToModerators(emailParams);
+        expect(result.error).not.be.ok;
+        expect(result.message).be.ok;
+      })(done);
+    });
+  });
 });
 
