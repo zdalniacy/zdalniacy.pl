@@ -1,6 +1,7 @@
 "use strict";
 
 var validator = require('./validator');
+var sanitizer = require('./sanitizer');
 
 var validationRules = {
   title: ["required"],
@@ -9,9 +10,21 @@ var validationRules = {
   salaryEnd: ['required', 'float']
 };
 
+var sanitizeRules = {
+  title: ["escape"],
+  description: ["escape"]
+};
+
+function areErrors(array) {
+  return array && array.length > 0;
+}
+
 function validate(offer) {
-  //TODO dorobić sprawdzanie XSS
-  return validator.validate(validationRules, offer);
+  var result = validator.validate(validationRules, offer);
+  if (result.isValid) {
+    sanitizer.sanitize(sanitizeRules, offer);
+  }
+  return result;
 }
 
 module.exports.validate = validate;

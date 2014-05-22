@@ -28,8 +28,10 @@ describe("companyValidator", function () {
     describe("when name", function () {
       it("is null", function () {
         company.name = null;
-        var errors = companyValidator.validate(company);
+        var result = companyValidator.validate(company);
 
+        var errors = result.errors;
+        expect(result.isValid).to.equal(false);
         expect(errors[0].message).to.equal("Pole jest wymagane");
         expect(errors[0].field).to.equal("name");
         expect(errors[0].ruleName).to.equal("required");
@@ -37,7 +39,7 @@ describe("companyValidator", function () {
 
       it("is empty", function () {
         company.name = '';
-        var errors = companyValidator.validate(company);
+        var errors = companyValidator.validate(company).errors;
 
         expect(errors[0].message).to.equal("Pole jest wymagane");
         expect(errors[0].field).to.equal("name");
@@ -48,7 +50,7 @@ describe("companyValidator", function () {
 
       it("is invalid", function () {
         company.url = 'sdfs';
-        var errors = companyValidator.validate(company);
+        var errors = companyValidator.validate(company).errors;
 
         expect(errors[0].message).to.equal("Nieprawidłowy adres url");
         expect(errors[0].field).to.equal("url");
@@ -60,7 +62,7 @@ describe("companyValidator", function () {
 
       it("is invalid", function () {
         company.phone = 'sdfs';
-        var errors = companyValidator.validate(company);
+        var errors = companyValidator.validate(company).errors;
 
         expect(errors[0].message).to.equal("Nieprawidłowy numer telefonu");
         expect(errors[0].field).to.equal("phone");
@@ -72,7 +74,7 @@ describe("companyValidator", function () {
 
       it("is invalid", function () {
         company.email = 'sdfs';
-        var errors = companyValidator.validate(company);
+        var errors = companyValidator.validate(company).errors;
 
         expect(errors.length).to.equal(1);
         expect(errors[0].message).to.equal("Nieprawidłowy adres email");
@@ -86,7 +88,7 @@ describe("companyValidator", function () {
       it("are invalid", function () {
         company.email = 'sdfs';
         company.phone = 'dsf';
-        var errors = companyValidator.validate(company);
+        var errors = companyValidator.validate(company).errors;
 
         expect(errors.length).to.equal(2);
         expect(errors[0].ruleName).to.equal("phone");
@@ -99,9 +101,21 @@ describe("companyValidator", function () {
   describe("validate should not errors", function () {
     it("when company is ok", function () {
       var company = testHelpers.createRandomCompany();
-      var errors = companyValidator.validate(company);
+      var errors = companyValidator.validate(company).errors;
 
       expect(errors.length).to.equal(0);
     });
   });
+
+  describe("validate should sanitize", function () {
+    it("name", function () {
+      var company = testHelpers.createRandomCompany();
+      company.name = "<script></script>";
+
+      companyValidator.validate(company);
+
+      expect(company.name).to.equal("&lt;script&gt;&lt;/script&gt;");
+    });
+  });
+
 });

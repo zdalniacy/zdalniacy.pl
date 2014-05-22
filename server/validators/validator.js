@@ -87,7 +87,10 @@ function validate(rules, obj) {
       }
     });
   });
-  return errors;
+  return {
+    isValid: errors.length === 0,
+    errors: errors
+  };
 }
 
 module.exports.validate = validate;

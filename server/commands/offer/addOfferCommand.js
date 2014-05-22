@@ -9,20 +9,19 @@ var slugService = require('../../services/utils/slugService');
 var addOfferEmailService = require('../../services/offer/addOfferEmailService');
 
 function areErrors(companyErrors, offerErrors) {
-  return (companyErrors && companyErrors.length > 0) ||
-    (offerErrors && offerErrors.length > 0);
+  return !companyErrors.isValid || !offerErrors.isValid;
 }
 
 function validate(params) {
   if (!params) {
     throw new Error("Nie przekazano parametrów do addOfferCommand");
   }
-  var companyErrors = companyValidator.validate(params.company);
-  var offerErrors = offerValidator.validate(params.offer);
-  if (areErrors(companyErrors, offerErrors)) {
+  var companyValidationResult = companyValidator.validate(params.company);
+  var offerValidationResult = offerValidator.validate(params.offer);
+  if (areErrors(companyValidationResult, offerValidationResult)) {
     return {
-      company: companyErrors,
-      offer: offerErrors
+      company: companyValidationResult.errors,
+      offer: offerValidationResult.errors
     };
   }
   return null;
