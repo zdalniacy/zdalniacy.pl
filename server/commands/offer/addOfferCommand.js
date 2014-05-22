@@ -63,7 +63,6 @@ function createResult(company, offer) {
 
 function * execute(params) {
   var company;
-
   company = yield companyRepository.findOne(params.company);
   if (!company) {
     company = yield companyRepository.create(params.company);
@@ -73,7 +72,7 @@ function * execute(params) {
   prepareOffer(params, company, slug);
   var offer = yield offerRepository.create(params.offer);
   yield addOfferEmailService.sendOfferWasAddedConfirmEmail(offer, company);
-  yield addOfferEmailService.notifyModeratorsOfferWasAdded(offer, company);
+  yield addOfferEmailService.notifyModeratorsOfferWasAdded(offer, company, params.request);
   return createResult(company, offer);
 }
 

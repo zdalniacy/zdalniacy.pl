@@ -111,7 +111,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should add company and offer", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
 
@@ -126,7 +126,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should add company and offer and return proper result", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
 
@@ -140,7 +140,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should set createDate", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
       var offer = yield offerRepository.findOne({_id: result.offer._id});
@@ -152,7 +152,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should set slug", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     invokerParams.commandParams.offer.name = "New śćółęąźżńć offer";
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
@@ -167,7 +167,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should set slug which is unique", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     invokerParams.commandParams.offer.name = "existing name";
     co(function * () {
       yield commandInvoker.invoke(invokerParams);
@@ -183,7 +183,7 @@ describe("addOfferCommand", function () {
 
 
   it("should create offer with company", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
 
@@ -196,7 +196,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should create offer and use existing comapny", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var firstResult = yield commandInvoker.invoke(invokerParams);
       var secondResult = yield commandInvoker.invoke(invokerParams);
@@ -209,7 +209,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should send confirm email to user", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       yield commandInvoker.invoke(invokerParams);
 
@@ -223,7 +223,7 @@ describe("addOfferCommand", function () {
   });
 
   it("should send notify email to moderators", function (done) {
-    invokerParams.commandParams = testHelpers.createAddOfferRandomUserInput();
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
       var result = yield commandInvoker.invoke(invokerParams);
 
@@ -233,10 +233,12 @@ describe("addOfferCommand", function () {
       invokerParams.commandParams.offer._id = result.offer._id.toString();
       invokerParams.commandParams.offer.tags = invokerParams.commandParams.offer.tags.join(', ');
 
+      var req = invokerParams.commandParams.request;
       var expectedHtml = yield render('notifyOfferWasAdded', {
         offer: invokerParams.commandParams.offer,
         company: invokerParams.commandParams.company,
-        approveUrl: "http://onet.pl"});
+        approveUrl: req.protocol + "://"+ req.host + "/offer/approve/"+result.offer._id.toString()
+      });
 
       expect(sendEmailToModeratorsParams.html).to.equal(expectedHtml);
     })(done);

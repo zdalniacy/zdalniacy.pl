@@ -31,19 +31,20 @@ function getTags(tags) {
   return "";
 }
 
-function getApproveUrl(offer) {
-//TODO dorbić generowanie linku
-  return "http://onet.pl";
+var approveOfferPath = "/offer/approve/";
+
+function getApproveUrl(offer, req) {
+  return req.protocol + "://" + req.host + approveOfferPath + offer._id;
 }
 
-function getObjectForView(offer, company) {
+function getObjectForView(offer, company, request) {
   var offerObject = offer.toObject();
   offerObject.tags = getTags(offer.tags);
 
   return {
     offer: offerObject,
     company: company,
-    approveUrl: getApproveUrl(offer)
+    approveUrl: getApproveUrl(offer, request)
   };
 }
 
@@ -54,8 +55,8 @@ function getNotifyModeratorsOfferWasAddedOptions(offer, content) {
   };
 }
 
-function * notifyModeratorsOfferWasAdded(offer, company) {
-  var viewModel = getObjectForView(offer, company);
+function * notifyModeratorsOfferWasAdded(offer, company, request) {
+  var viewModel = getObjectForView(offer, company, request);
   var content = yield render('notifyOfferWasAdded', viewModel);
   var emailOptions = getNotifyModeratorsOfferWasAddedOptions(offer, content);
   yield emailService.sendEmailToModerators(emailOptions);
