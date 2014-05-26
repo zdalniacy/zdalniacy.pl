@@ -2,7 +2,7 @@
 
 var chance = require('chance').Chance();
 
-function createAddOfferCommandParams() {
+function createAddOfferRequestParams() {
   return {
     company: {
       name: chance.string(),
@@ -16,12 +16,17 @@ function createAddOfferCommandParams() {
       salaryStart: "" + chance.floating({min: 1, fixed: 2}),
       salaryEnd: "" + chance.floating({min: 1, fixed: 2}),
       tags: [chance.string(), chance.string()]
-    },
-    request: {
-      host: "zdalniacy.pl",
-      protocol: "http"
     }
   };
+}
+
+function createAddOfferCommandParams() {
+  var params = createAddOfferRequestParams();
+  params.request = {
+    host: "zdalniacy.pl",
+    protocol: "http"
+  };
+  return params;
 }
 
 function createRandomOffer() {
@@ -71,3 +76,4 @@ module.exports.createRandomOffer = createRandomOffer;
 module.exports.createRandomCompany = createRandomCompany;
 module.exports.createRandomSubscription = createRandomSubscription;
 module.exports.createAddOfferCommandParams = createAddOfferCommandParams;
+module.exports.createAddOfferRequestParams = createAddOfferRequestParams;

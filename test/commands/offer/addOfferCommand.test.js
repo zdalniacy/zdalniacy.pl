@@ -202,8 +202,9 @@ describe("addOfferCommand", function () {
       var secondResult = yield commandInvoker.invoke(invokerParams);
 
       var offer = yield offerRepository.findOne({_id: secondResult.offer._id});
+      var companies = yield companyRepository.find(invokerParams.commandParams.company);
 
-      expect(offer.company._id.toString()).to.equal(firstResult.company._id.toString());
+      expect(companies.length).to.equal(1);
 
     })(done);
   });
@@ -237,7 +238,7 @@ describe("addOfferCommand", function () {
       var expectedHtml = yield render('notifyOfferWasAdded', {
         offer: invokerParams.commandParams.offer,
         company: invokerParams.commandParams.company,
-        approveUrl: req.protocol + "://"+ req.host + "/offer/approve/"+result.offer._id.toString()
+        approveUrl: req.protocol + "://" + req.host + "/offer/approve/" + result.offer._id.toString()
       });
 
       expect(sendEmailToModeratorsParams.html).to.equal(expectedHtml);
