@@ -198,10 +198,10 @@ describe("addOfferCommand", function () {
   it("should create offer and use existing comapny", function (done) {
     invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {
-      var firstResult = yield commandInvoker.invoke(invokerParams);
+      yield commandInvoker.invoke(invokerParams);
       var secondResult = yield commandInvoker.invoke(invokerParams);
 
-      var offer = yield offerRepository.findOne({_id: secondResult.offer._id});
+      yield offerRepository.findOne({_id: secondResult.offer._id});
       var companies = yield companyRepository.find(invokerParams.commandParams.company);
 
       expect(companies.length).to.equal(1);
