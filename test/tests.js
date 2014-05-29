@@ -4,7 +4,8 @@ var app = require('../index'),
   should = require('should'),
   request = require('supertest').agent(app.listen()),
   Offer = require('../server/models/offer.js'),
-  chance = require('chance').Chance();
+  chance = require('chance').Chance(),
+  testHelper = require('./testHelpers');
 
 describe('Loading Main Page', function(){
   it('should say "Hello World "', function(done){
@@ -39,8 +40,8 @@ describe('Admin Page', function(){
 
 describe('Admin Offers', function(){
   it('should show list admin offers', function(done){
-    var title = chance.string();
-    var offer = new Offer({title: title});
+    var offerParams = testHelper.createRandomOffer();
+    var offer = new Offer(offerParams);
     offer.save(function(err){
       if(err) throw err;
         request

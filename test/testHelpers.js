@@ -40,6 +40,7 @@ function createRandomOffer() {
     publishDate: chance.date(),
     endDate: chance.date(),
     closeKey: chance.hash(),
+    status: 'WAITING_FOR_APPROVAL',
     transaction: {
       isPaid: chance.bool(),
       paymentDate: chance.date(),

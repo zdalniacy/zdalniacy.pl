@@ -46,6 +46,7 @@ function prepareOffer(params, company, slug) {
   offer.company = company;
   offer.createDate = dateTimeService.toUtc(dateTimeService.getNow());
   offer.slug = slug;
+  offer.status = "WAITING_FOR_APPROVAL";
 }
 
 function createResult(company, offer) {

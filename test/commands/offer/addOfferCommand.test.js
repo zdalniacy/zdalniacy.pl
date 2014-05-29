@@ -125,6 +125,18 @@ describe("addOfferCommand", function () {
     })(done);
   });
 
+  it("should add offer and set proper status", function (done) {
+    invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      var offer = yield offerRepository.findOne({_id: result.offer._id});
+
+      expect(offer.status).to.equal('WAITING_FOR_APPROVAL');
+
+    })(done);
+  });
+
   it("should add company and offer and return proper result", function (done) {
     invokerParams.commandParams = testHelpers.createAddOfferCommandParams();
     co(function * () {

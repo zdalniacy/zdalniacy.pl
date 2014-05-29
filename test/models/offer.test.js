@@ -1,9 +1,9 @@
 "use strict";
 
 var Offer = require('../../server/models/offer.js'),
-  chance = require('chance').Chance(),
   expect = require('chai').expect,
-  co = require('co');
+  co = require('co'),
+  testHelper = require('../testHelpers');
 
 describe('Offer model', function () {
 
@@ -12,8 +12,8 @@ describe('Offer model', function () {
   });
 
   it("should create and find Offer object", function (done) {
-    var title = chance.string();
-    var offer = new Offer({title: title});
+    var offerParams = testHelper.createRandomOffer();
+    var offer = new Offer(offerParams);
 
     var save = function () {
       return function (callback) {
@@ -29,8 +29,8 @@ describe('Offer model', function () {
 
     co(function * () {
       yield save();
-      var savedOffer = yield findOne(title);
-      expect(savedOffer.title).to.equal(title);
+      var savedOffer = yield findOne(offerParams.title);
+      expect(savedOffer.title).to.equal(offerParams.title);
       done();
     })();
   });
