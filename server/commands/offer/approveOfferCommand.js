@@ -1,6 +1,7 @@
 "use strict";
 
 var offerRepository = require('../../repositories/offerRepository');
+var statusesManger = require('../../services/offer/offerStatusesManager');
 
 function validate(params) {
   if (!params.offerId) {
@@ -13,7 +14,12 @@ function validate(params) {
 
 
 function * execute(params) {
-//  var offer = yield offerRepository.findOne({_id: params.offerId});
+  var offer = yield offerRepository.findOne({_id: params.offerId});
+  var nextStatus = statusesManger.getNextStatus(offer.status);
+  yield offerRepository.findByIdAndUpdate(offer._id, {status: nextStatus });
+  return {
+    _id: offer._id
+  };of
 }
 
 module.exports.execute = execute;

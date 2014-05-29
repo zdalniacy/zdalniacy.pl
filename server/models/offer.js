@@ -2,10 +2,11 @@
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId;
+  ObjectId = Schema.ObjectId,
+  statusesManager = require('../services/offer/offerStatusesManager');
 
 var statesEnum = {
-  values: ["WAITING_FOR_APPROVAL", "APPROVED", "WAITING_FOR_PAYMENT", "PAID", "CANCELED", "EXPIRED"],
+  values: statusesManager.getStatuses(),
   message: "Invalid status"
 };
 

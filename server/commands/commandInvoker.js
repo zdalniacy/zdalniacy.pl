@@ -40,5 +40,8 @@ function * invoke(params) {
 
   return yield params.command.execute(params.commandParams);
 }
-
+/*
+command: '',
+commandParams: ''
+ */
 module.exports.invoke = invoke;
