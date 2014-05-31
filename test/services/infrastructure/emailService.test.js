@@ -4,7 +4,7 @@ var emailService = require('../../../server/services/infrastructure/emailService
   expect = require('chai').expect,
   co = require('co');
 
-describe.skip("emailService", function () {
+describe("emailService", function () {
 
   var emailParams = {
     from: "Testus ✔ <testus@zdalniacy.pl>",
