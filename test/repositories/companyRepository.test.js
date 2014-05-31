@@ -175,7 +175,7 @@ describe("companyRepository", function () {
         var notExistsCompany = yield repository.findOne({_id: savedCompany._id});
 
         expect(notExistsCompany).to.equal(null);
-        expect(result).to.equal(1);
+        expect(result[0]).to.equal(1);
         done();
       })();
     });
@@ -188,8 +188,7 @@ describe("companyRepository", function () {
         yield repository.remove({_id: savedCompany._id});
         var documentsAffected = yield repository.remove({_id: savedCompany._id});
 
-
-        expect(documentsAffected).to.equal(0);
+        expect(documentsAffected[0]).to.equal(0);
         done();
       })();
     });

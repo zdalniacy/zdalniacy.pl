@@ -182,7 +182,7 @@ describe('offerRepository', function () {
         var notExistsOffer = yield repository.findOne({_id: savedOffer._id});
 
         expect(notExistsOffer).to.equal(null);
-        expect(result).to.equal(1);
+        expect(result[0]).to.equal(1);
         done();
       })();
     });
@@ -196,7 +196,7 @@ describe('offerRepository', function () {
         var documentsAffected = yield repository.remove({_id: savedOffer._id});
 
 
-        expect(documentsAffected).to.equal(0);
+        expect(documentsAffected[0]).to.equal(0);
         done();
       })();
     });
