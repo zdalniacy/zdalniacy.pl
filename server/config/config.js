@@ -11,12 +11,12 @@ var configuration = {
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
     db: 'mongodb://localhost/test',
     email: {
-      user: process.env.EMAIL_USER,
-      password: process.env.EMAIL_PASSWORD,
+      config: {
+
+      },
+      type: 'stub',
       noReplyEmail: 'testus@zdalniacy.pl',
-      moderatorEmails: ['testus@zdalniacy.pl'],
-      server: 'mail.zdalniacy.pl',
-      port: 587
+      moderatorEmails: ['testus@zdalniacy.pl']
     }
   },
   production: {
@@ -26,12 +26,18 @@ var configuration = {
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
     db: '',
     email: {
-      user: process.env.EMAIL_USER,
-      password: process.env.EMAIL_PASSWORD,
+      config: {
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+        secureConnection: false,
+        host: 'mail.zdalniacy.pl',
+        port: 587
+      },
+      type: 'SMTP',
       noReplyEmail: 'testus@zdalniacy.pl',
-      moderatorEmails: ['testus@zdalniacy.pl'],
-      server: 'mail.zdalniacy.pl',
-      port: 587
+      moderatorEmails: ['testus@zdalniacy.pl']
     }
   }
 };

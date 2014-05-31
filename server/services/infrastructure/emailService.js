@@ -4,15 +4,7 @@ var nodemailer = require("nodemailer");
 var config = require('../../config/config').getConfig();
 var util = require('util');
 
-var smtpTransport = nodemailer.createTransport("SMTP", {
-  host: config.email.server,
-  secureConnection: false,
-  port: config.email.port,
-  auth: {
-    user: config.email.user,
-    pass: config.email.password
-  }
-});
+var smtpTransport = nodemailer.createTransport(config.email.type, config.email.config);
 
 
 function sendEmail(params) {
