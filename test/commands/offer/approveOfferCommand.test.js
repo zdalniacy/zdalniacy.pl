@@ -7,7 +7,7 @@ var approveOfferCommand = require('../../../server/commands/offer/approveOfferCo
 var testHelpers = require('../../testHelpers');
 var offerRepository = require('../../../server/repositories/offerRepository');
 
-describe.only("approveOfferCommand", function () {
+describe("approveOfferCommand", function () {
 
   var invokerParams = {
     command: approveOfferCommand,
