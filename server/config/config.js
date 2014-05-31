@@ -15,7 +15,8 @@ var configuration = {
       password: process.env.EMAIL_PASSWORD,
       noReplyEmail: 'testus@zdalniacy.pl',
       moderatorEmails: ['testus@zdalniacy.pl'],
-      server: 'mail.zdalniacy.pl'
+      server: 'mail.zdalniacy.pl',
+      port: 587
     }
   },
   production: {
@@ -29,7 +30,8 @@ var configuration = {
       password: process.env.EMAIL_PASSWORD,
       noReplyEmail: 'testus@zdalniacy.pl',
       moderatorEmails: ['testus@zdalniacy.pl'],
-      server: 'mail.zdalniacy.pl'
+      server: 'mail.zdalniacy.pl',
+      port: 587
     }
   }
 };

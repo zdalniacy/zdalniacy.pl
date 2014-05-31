@@ -7,7 +7,7 @@ var util = require('util');
 var smtpTransport = nodemailer.createTransport("SMTP", {
   host: config.email.server,
   secureConnection: false,
-  port: 587,
+  port: config.email.port,
   auth: {
     user: config.email.user,
     pass: config.email.password

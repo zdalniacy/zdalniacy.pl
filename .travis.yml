@@ -12,7 +12,7 @@ before_script:
 - sudo apt-get update
 - sudo apt-get install mongodb-org screen
 - sudo /etc/init.d/mongod start
-- screen -d -m sudo python -m smtpd -n -c DebuggingServer localhost:25
+- screen -d -m sudo python -m smtpd -n -c DebuggingServer localhost:587
 after_script:
 - npm run coverage
 - npm run coveralls
