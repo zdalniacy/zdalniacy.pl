@@ -19,7 +19,7 @@ function * execute(params) {
   yield offerRepository.findByIdAndUpdate(offer._id, {status: nextStatus });
   return {
     _id: offer._id
-  };of
+  };
 }
 
 module.exports.execute = execute;

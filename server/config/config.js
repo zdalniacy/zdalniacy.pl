@@ -29,7 +29,7 @@ var configuration = {
       config: {
         auth: {
           user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASSWORD,
+          pass: process.env.EMAIL_PASSWORD
         },
         secureConnection: false,
         host: 'mail.zdalniacy.pl',
