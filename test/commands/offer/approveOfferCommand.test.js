@@ -55,7 +55,7 @@ describe("approveOfferCommand", function () {
     })(done);
   });
 
-  it("should send email to offer author with cancellation link", function () {
+  it("should send email to offer's author with cancellation link", function () {
 
   });
 
