@@ -9,11 +9,8 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
   co = require('co'),
   expect = require('chai').expect,
   emailService = require('../../../server/services/infrastructure/emailService'),
-  util = require('util'),
-  views = require('co-views'),
-  config = require('../../../server/config/config').getConfig(),
-  rootPath = config.rootPath,
-  render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
+  util = require('util');
+
 
 describe("addOfferCommand", function () {
 
@@ -53,7 +50,7 @@ describe("addOfferCommand", function () {
     dateTimeService.getNow = function () {
       return now;
     };
-    sendNoReplyEmailParams = {};
+    sendNoReplyEmailParams = null;
     oldSendNoReplyEmail = emailService.sendNoReplyEmail;
     oldSendEmailToModerators = emailService.sendEmailToModerators;
     emailService.sendNoReplyEmail = sendNoReplyEmailFake;
@@ -230,7 +227,7 @@ describe("addOfferCommand", function () {
       expect(sendNoReplyEmailParams.to).to.equal(invokerParams.commandParams.company.email);
       expect(sendNoReplyEmailParams.subject).to.equal('Potwierdzenie przyjęcia oferty');
 
-      var expectedHtml = yield render('confirmAddNewOffer', { offer: invokerParams.commandParams.offer});
+      var expectedHtml = yield testHelpers.emailsContent.confirmAddNewOffer({ offer: invokerParams.commandParams.offer});
       expect(sendNoReplyEmailParams.html).to.equal(expectedHtml);
     })(done);
   });
@@ -247,7 +244,7 @@ describe("addOfferCommand", function () {
       invokerParams.commandParams.offer.tags = invokerParams.commandParams.offer.tags.join(', ');
 
       var req = invokerParams.commandParams.request;
-      var expectedHtml = yield render('notifyOfferWasAdded', {
+      var expectedHtml = yield testHelpers.emailsContent.notifyOfferWasAdded({
         offer: invokerParams.commandParams.offer,
         company: invokerParams.commandParams.company,
         approveUrl: req.protocol + "://" + req.host + "/offer/approve/" + result.offer._id.toString()

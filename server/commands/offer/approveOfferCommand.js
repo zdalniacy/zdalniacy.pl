@@ -18,10 +18,12 @@ function * execute(params) {
   var offer = yield offerRepository.findOne({_id: params.offerId});
   var nextStatus = statusesManger.getNextStatus(offer.status);
   var cancellationToken = tokenGenerator.generateToken();
+
   yield offerRepository.findByIdAndUpdate(offer._id, {
     status: nextStatus,
     closeKey: cancellationToken
   });
+
   yield approveOfferEmailService.sendApprovedOfferEmailToAuthor({
     title: offer.title,
     email: offer.company.email,

@@ -6,16 +6,16 @@ var views = require('co-views');
 var rootPath = require('../../config/config').getConfig().rootPath;
 var render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
 
-function getSendApprovedOfferEmailToAuthor(email, content) {
+function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {
   return {
     to: email,
-    subject: 'Oferta została zatwierdzona',
+    subject: 'Oferta ' + offerTitle + ' została zatwierdzona',
     html: content
   };
 }
 /*
  title,
- email
+ email,
  cancellationToken
  */
 function * sendApprovedOfferEmailToAuthor(options) {
@@ -23,7 +23,7 @@ function * sendApprovedOfferEmailToAuthor(options) {
     title: options.title,
     cancellationToken: options.cancellationToken
   });
-  var emailOptions = getSendApprovedOfferEmailToAuthor(options.email, content);
+  var emailOptions = getSendApprovedOfferEmailToAuthor(options.email, options.title, content);
   yield emailService.sendNoReplyEmail(emailOptions);
 }
 

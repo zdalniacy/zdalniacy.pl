@@ -1,6 +1,10 @@
 "use strict";
 
 var chance = require('chance').Chance();
+var views = require('co-views');
+var config = require('../server/config/config').getConfig();
+var rootPath = config.rootPath;
+var render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
 
 function createAddOfferRequestParams() {
   return {
@@ -73,8 +77,25 @@ function createRandomSubscription() {
   };
 }
 
+function * notifyOfferWasAdded(params) {
+  return yield render('notifyOfferWasAdded', params);
+}
+
+function * confirmAddNewOffer(params) {
+  return yield render('confirmAddNewOffer', params);
+}
+
+function * approvedOfferEmailToAuthor(params) {
+  return yield render('approvedOfferEmailToAuthor', params);
+}
+
 module.exports.createRandomOffer = createRandomOffer;
 module.exports.createRandomCompany = createRandomCompany;
 module.exports.createRandomSubscription = createRandomSubscription;
 module.exports.createAddOfferCommandParams = createAddOfferCommandParams;
 module.exports.createAddOfferRequestParams = createAddOfferRequestParams;
+module.exports.emailsContent = {
+  notifyOfferWasAdded: notifyOfferWasAdded,
+  confirmAddNewOffer: confirmAddNewOffer,
+  approvedOfferEmailToAuthor: approvedOfferEmailToAuthor
+};
