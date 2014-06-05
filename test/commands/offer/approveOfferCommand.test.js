@@ -44,7 +44,7 @@ describe("approveOfferCommand", function () {
 
   afterEach(function () {
     emailService.sendNoReplyEmail = oldSendNoReplyEmail;
-  })
+  });
 
   it("should return errors when called with invalid params", function (done) {
     invokerParams.commandParams = {};
