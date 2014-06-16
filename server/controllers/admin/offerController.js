@@ -13,5 +13,10 @@ function * addOffer() {
   this.body = result;
 }
 
+function * approveOffer(){
+
+}
+
 module.exports.offerList = offerList;
 module.exports.addOffer = addOffer;
+module.exports.approveOffer = approveOffer;

@@ -16,5 +16,4 @@ app.use(router.middleware());
 //app.use(authorize);
 app.use(securedRouter.middleware());
 
-
 if (!module.parent) app.listen(config.port);

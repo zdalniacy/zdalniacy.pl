@@ -24,13 +24,17 @@ function createAddOfferRequestParams() {
   };
 }
 
-function createAddOfferCommandParams() {
-  var params = createAddOfferRequestParams();
-  params.context = {
-    getApplicationUrl:function(){
+function createContext() {
+  return  {
+    getApplicationUrl: function () {
       return "http" + "://" + "zdalniacy.pl";
     }
   };
+}
+
+function createAddOfferCommandParams() {
+  var params = createAddOfferRequestParams();
+  params.context = createContext();
   return params;
 }
 
@@ -100,3 +104,4 @@ module.exports.emailsContent = {
   confirmAddNewOffer: confirmAddNewOffer,
   approvedOfferEmailToAuthor: approvedOfferEmailToAuthor
 };
+module.exports.createContext = createContext

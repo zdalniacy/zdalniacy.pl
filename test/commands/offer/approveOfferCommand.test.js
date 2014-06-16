@@ -16,7 +16,6 @@ describe("approveOfferCommand", function () {
   var invokerParams = {
     command: approveOfferCommand,
     commandParams: {
-      offerId: null
     }
   };
 
@@ -34,6 +33,7 @@ describe("approveOfferCommand", function () {
 
       var result = yield commandInvoker.invoke(createOfferCommandParams);
       invokerParams.commandParams.offerId = result.offer._id.toString();
+      invokerParams.commandParams.context = testHelpers.createContext();
 
       sendNoReplyEmailParams = null;
       oldSendNoReplyEmail = emailService.sendNoReplyEmail;
@@ -60,7 +60,7 @@ describe("approveOfferCommand", function () {
     })(done);
   });
 
-  it.skip("should approve proper offer", function (done) {
+  it("should approve proper offer", function (done) {
 
     co(function *() {
       var result = yield commandInvoker.invoke(invokerParams);
@@ -89,15 +89,15 @@ describe("approveOfferCommand", function () {
 
   });
 
-  it("should send email to moderators", function () {
+  it.skip("should send email to moderators", function () {
 
   });
 
-  it("when offer already approve should return false with message", function () {
+  it.skip("when offer already approve should return false with message", function () {
 
   });
 
-  it("when offer doesn't exist should return false with message", function () {
+  it.skip("when offer doesn't exist should return false with message", function () {
 
   });
 

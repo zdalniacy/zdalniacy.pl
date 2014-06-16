@@ -1,7 +1,7 @@
 "use strict";
 
 var parse = require('co-body');
-
+var router = require('../../routes/routes');
 
 function createContext(httpContext) {
   return {

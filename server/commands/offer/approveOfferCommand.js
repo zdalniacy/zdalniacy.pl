@@ -27,7 +27,8 @@ function * execute(params) {
   yield approveOfferEmailService.sendApprovedOfferEmailToAuthor({
     title: offer.title,
     email: offer.company.email,
-    cancellationToken: cancellationToken
+    cancellationToken: cancellationToken,
+    context: params.context
   });
   return {
     _id: offer._id

@@ -7,8 +7,8 @@ var render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
 
 var cancelOffer = "/offer/cancel/";
 
-function getCancelOfferUrl(cancellationUrl, req) {
-  return req.protocol + "://" + req.host + cancelOffer + cancellationUrl;
+function getCancelOfferUrl(options) {
+  return options.context.getApplicationUrl() + cancelOffer + options.cancellationUrl;
 }
 
 function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {
@@ -26,7 +26,7 @@ function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {
 function * sendApprovedOfferEmailToAuthor(options) {
   var content = yield render('approvedOfferEmailToAuthor', {
     title: options.title,
-    cancellationUrl: getCancelOfferUrl(options.cancellationToken)
+    cancellationUrl: getCancelOfferUrl(options)
   });
   var emailOptions = getSendApprovedOfferEmailToAuthor(options.email, options.title, content);
   yield emailService.sendNoReplyEmail(emailOptions);
