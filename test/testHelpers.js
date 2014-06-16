@@ -26,9 +26,10 @@ function createAddOfferRequestParams() {
 
 function createAddOfferCommandParams() {
   var params = createAddOfferRequestParams();
-  params.request = {
-    host: "zdalniacy.pl",
-    protocol: "http"
+  params.context = {
+    getApplicationUrl:function(){
+      return "http" + "://" + "zdalniacy.pl";
+    }
   };
   return params;
 }

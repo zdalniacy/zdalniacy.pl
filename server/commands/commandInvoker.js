@@ -27,21 +27,27 @@ function areErrors(errors) {
 }
 
 function * invoke(params) {
-  checkCommand(params);
+  try {
+    checkCommand(params);
 
-  var errors = validate(params);
+    var errors = validate(params);
 
-  if (areErrors(errors)) {
+    if (areErrors(errors)) {
+      return {
+        status: false,
+        errors: errors
+      };
+    }
+    return yield params.command.execute(params.commandParams);
+  } catch (err) {
     return {
       status: false,
-      errors: errors
+      errors: err
     };
   }
-
-  return yield params.command.execute(params.commandParams);
 }
 /*
-command: '',
-commandParams: ''
+ command: '',
+ commandParams: ''
  */
 module.exports.invoke = invoke;

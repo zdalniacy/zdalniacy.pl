@@ -33,8 +33,8 @@ function getTags(tags) {
 
 var approveOfferPath = "/offer/approve/";
 
-function getApproveUrl(offer, req) {
-  return req.protocol + "://" + req.host + approveOfferPath + offer._id;
+function getApproveUrl(offer, context) {
+  return context.getApplicationUrl() + approveOfferPath + offer._id;
 }
 
 function getObjectForView(offer, company, request) {

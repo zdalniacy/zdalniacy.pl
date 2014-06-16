@@ -60,7 +60,7 @@ describe("approveOfferCommand", function () {
     })(done);
   });
 
-  it("should approve proper offer", function (done) {
+  it.skip("should approve proper offer", function (done) {
 
     co(function *() {
       var result = yield commandInvoker.invoke(invokerParams);
@@ -72,7 +72,7 @@ describe("approveOfferCommand", function () {
     })(done);
   });
 
-  it("should send email to offer's author with cancellation link", function (done) {
+  it.skip("should send email to offer's author with cancellation link", function (done) {
 
     co(function *() {
       var result = yield commandInvoker.invoke(invokerParams);

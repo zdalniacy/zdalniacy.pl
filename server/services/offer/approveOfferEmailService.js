@@ -1,10 +1,15 @@
 "use strict";
 
 var emailService = require('../infrastructure/emailService');
-var util = require('util');
 var views = require('co-views');
 var rootPath = require('../../config/config').getConfig().rootPath;
 var render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
+
+var cancelOffer = "/offer/cancel/";
+
+function getCancelOfferUrl(cancellationUrl, req) {
+  return req.protocol + "://" + req.host + cancelOffer + cancellationUrl;
+}
 
 function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {
   return {
@@ -21,7 +26,7 @@ function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {
 function * sendApprovedOfferEmailToAuthor(options) {
   var content = yield render('approvedOfferEmailToAuthor', {
     title: options.title,
-    cancellationToken: options.cancellationToken
+    cancellationUrl: getCancelOfferUrl(options.cancellationToken)
   });
   var emailOptions = getSendApprovedOfferEmailToAuthor(options.email, options.title, content);
   yield emailService.sendNoReplyEmail(emailOptions);

@@ -243,11 +243,11 @@ describe("addOfferCommand", function () {
       invokerParams.commandParams.offer._id = result.offer._id.toString();
       invokerParams.commandParams.offer.tags = invokerParams.commandParams.offer.tags.join(', ');
 
-      var req = invokerParams.commandParams.request;
+      var context = invokerParams.commandParams.context;
       var expectedHtml = yield testHelpers.emailsContent.notifyOfferWasAdded({
         offer: invokerParams.commandParams.offer,
         company: invokerParams.commandParams.company,
-        approveUrl: req.protocol + "://" + req.host + "/offer/approve/" + result.offer._id.toString()
+        approveUrl: context.getApplicationUrl() + "/offer/approve/" + result.offer._id.toString()
       });
 
       expect(sendEmailToModeratorsParams.html).to.equal(expectedHtml);
