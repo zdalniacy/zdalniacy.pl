@@ -8,7 +8,7 @@ var render = views(rootPath + '/server/views/emailViews', { ext: 'ejs' });
 var cancelOffer = "/offer/cancel/";
 
 function getCancelOfferUrl(options) {
-  return options.context.getApplicationUrl() + cancelOffer + options.cancellationUrl;
+  return options.context.getApplicationUrl() + cancelOffer + options.cancellationToken;
 }
 
 function getSendApprovedOfferEmailToAuthor(email, offerTitle, content) {

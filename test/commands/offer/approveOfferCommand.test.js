@@ -38,7 +38,7 @@ describe("approveOfferCommand", function () {
       sendNoReplyEmailParams = null;
       oldSendNoReplyEmail = emailService.sendNoReplyEmail;
       emailService.sendNoReplyEmail = sendNoReplyEmailFake;
-
+      invokerParams.commandParams.context = testHelpers.createContext();
     })(done);
   });
 
@@ -72,7 +72,7 @@ describe("approveOfferCommand", function () {
     })(done);
   });
 
-  it.skip("should send email to offer's author with cancellation link", function (done) {
+  it("should send email to offer's author with cancellation link", function (done) {
 
     co(function *() {
       var result = yield commandInvoker.invoke(invokerParams);
@@ -82,8 +82,10 @@ describe("approveOfferCommand", function () {
       expect(sendNoReplyEmailParams.to).to.equal(offer.company.email);
 
       var expectedHtml = yield testHelpers.emailsContent.approvedOfferEmailToAuthor({
-        title: offer.title
+        title: offer.title,
+        cancellationUrl: invokerParams.commandParams.context.getApplicationUrl() + "/offer/cancel/" + offer.toObject().closeKey
       });
+
       expect(sendNoReplyEmailParams.html).to.equal(expectedHtml);
     })(done);
 
@@ -101,4 +103,5 @@ describe("approveOfferCommand", function () {
 
   });
 
-});
+})
+;
