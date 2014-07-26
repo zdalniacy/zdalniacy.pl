@@ -16,6 +16,12 @@ function validate(params) {
 
 function * execute(params) {
     var offer = yield offerRepository.findOne({_id: params.offerId});
+    if (statusesManger.isApproved(offer.status)) {
+        return {
+            status: false,
+            errors: ["Oferta została już zatwierdzona"]
+        }
+    }
     var nextStatus = statusesManger.getNextStatus(offer.status);
     var cancellationToken = tokenGenerator.generateToken();
 
@@ -36,7 +42,8 @@ function * execute(params) {
     });
 
     return {
-        _id: offer._id
+        _id: offer._id,
+        status: true
     };
 }
 

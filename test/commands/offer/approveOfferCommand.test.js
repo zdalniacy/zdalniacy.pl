@@ -76,6 +76,7 @@ describe("approveOfferCommand", function () {
             var result = yield commandInvoker.invoke(invokerParams);
             var offer = yield offerRepository.findOne({_id: result._id});
 
+            expect(result.status).to.equal(true);
             expect(result._id.toString()).to.equal(offer._id.toString());
             expect(offer._id.toString()).to.equal(invokerParams.commandParams.offerId);
             expect(offer.status).to.equal("APPROVED");
@@ -116,13 +117,20 @@ describe("approveOfferCommand", function () {
         })(done);
     });
 
-    it.skip("when offer already approve should return false with message", function () {
+    it("when offer already approve should return false with message", function (done) {
+        co(function *() {
+            var firstResult = yield commandInvoker.invoke(invokerParams);
+            var secondResult = yield commandInvoker.invoke(invokerParams);
 
+            expect(firstResult.status).to.equal(true);
+            expect(secondResult.status).to.equal(false);
+            expect(secondResult.errors).to.be.ok;
+            expect(secondResult.errors[0]).to.equal("Oferta została już zatwierdzona");
+        })(done);
     });
 
     it.skip("when offer doesn't exist should return false with message", function () {
 
     });
 
-})
-;
+});
