@@ -1,7 +1,6 @@
 "use strict";
 
 var parse = require('co-body');
-var router = require('../../routes/routes');
 
 function createContext(httpContext) {
   return {
@@ -13,11 +12,11 @@ function createContext(httpContext) {
 
 function * createParams(command, httpContext) {
   var commandParams = yield parse(httpContext);
-  commandParams.context = createContext(httpContext);
 
   var invokerParams = {
     command: command,
-    commandParams: commandParams
+    commandParams: commandParams,
+    context: createContext(httpContext)
   };
   return invokerParams;
 }

@@ -15,7 +15,8 @@ var addOfferCommand = require('../../../server/commands/offer/addOfferCommand'),
 describe("addOfferCommand", function () {
 
   var invokerParams = {
-    command: addOfferCommand
+    command: addOfferCommand,
+    context:testHelpers.createContext()
   };
 
   before(function (done) {
@@ -243,7 +244,7 @@ describe("addOfferCommand", function () {
       invokerParams.commandParams.offer._id = result.offer._id.toString();
       invokerParams.commandParams.offer.tags = invokerParams.commandParams.offer.tags.join(', ');
 
-      var context = invokerParams.commandParams.context;
+      var context = invokerParams.context;
       var expectedHtml = yield testHelpers.emailsContent.notifyOfferWasAdded({
         offer: invokerParams.commandParams.offer,
         company: invokerParams.commandParams.company,

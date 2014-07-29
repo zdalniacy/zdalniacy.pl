@@ -35,7 +35,8 @@ describe("commandInvoker", function () {
     var commandParams = {};
     var invokerParams = {
       command: require('../commands/commandInvoker.test'),
-      commandParams: commandParams
+      commandParams: commandParams,
+      context: {}
     };
 
     co(function * () {
@@ -69,6 +70,17 @@ describe("commandInvoker", function () {
     })(done);
   });
 
+  it("should throw Error when context is not passed", function (done) {
+
+    co(function *() {
+      try {
+        yield commandInvoker.invoke({command: {execute: function(){}}});
+      } catch (e) {
+        expect(e.message).to.equal("The execution context doesn't exist");
+      }
+    })(done);
+  });
+
   it("when validator is passed should call method validate", function (done) {
     var commandParams = {};
     var validationParams;
@@ -80,7 +92,8 @@ describe("commandInvoker", function () {
     };
     var invokerParams = {
       command: command,
-      commandParams: commandParams
+      commandParams: commandParams,
+      context: {}
     };
 
     co(function * () {
@@ -99,7 +112,8 @@ describe("commandInvoker", function () {
     };
     var invokerParams = {
       command: command,
-      commandParams: {}
+      commandParams: {},
+      context: {}
     };
 
     co(function * () {
@@ -118,7 +132,8 @@ describe("commandInvoker", function () {
     };
     var invokerParams = {
       command: command,
-      commandParams: {}
+      commandParams: {},
+      context: {}
     };
 
     co(function * () {

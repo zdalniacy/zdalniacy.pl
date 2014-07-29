@@ -7,6 +7,10 @@ function checkCommand(params) {
   if (!params.command.execute) {
     throw new Error("The command doesn't have method 'execute'");
   }
+
+  if (!params.context) {
+    throw new Error("The execution context doesn't exist");
+  }
 }
 
 function validate(params) {
@@ -38,7 +42,7 @@ function * invoke(params) {
         errors: errors
       };
     }
-    return yield params.command.execute(params.commandParams);
+    return yield params.command.execute(params.commandParams, params.context);
   } catch (err) {
     return {
       status: false,
@@ -49,6 +53,7 @@ function * invoke(params) {
 /*
  command: '',
  commandParams: {
- }
+ },
+ context:
  */
 module.exports.invoke = invoke;
