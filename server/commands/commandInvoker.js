@@ -48,6 +48,7 @@ function * invoke(params) {
 }
 /*
  command: '',
- commandParams: ''
+ commandParams: {
+ }
  */
 module.exports.invoke = invoke;

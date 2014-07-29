@@ -47,7 +47,6 @@ describe("approveOfferCommand", function () {
             oldSendEmailToModerators = emailService.sendEmailToModerators;
             emailService.sendNoReplyEmail = sendNoReplyEmailFake;
             emailService.sendEmailToModerators = sendEmailToModeratorsFake;
-            invokerParams.commandParams.context = testHelpers.createContext();
         })(done);
     });
 
@@ -125,12 +124,19 @@ describe("approveOfferCommand", function () {
             expect(firstResult.status).to.equal(true);
             expect(secondResult.status).to.equal(false);
             expect(secondResult.errors).to.be.ok;
-            expect(secondResult.errors[0]).to.equal("Oferta została już zatwierdzona");
+            expect(secondResult.errors).to.equal("Oferta została już zatwierdzona");
         })(done);
     });
 
-    it.skip("when offer doesn't exist should return false with message", function () {
+    it("when offer doesn't exist should return false with message", function (done) {
+        co(function *() {
+            invokerParams.commandParams.offerId = "53d808c94b55d7a4184d08da";
+            var result = yield commandInvoker.invoke(invokerParams);
 
+            expect(result.status).to.equal(false);
+            expect(result.errors).to.ok;
+            expect(result.errors).to.equal("Oferta nie istnieje");
+        })(done)
     });
 
 });
