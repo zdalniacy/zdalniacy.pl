@@ -3,6 +3,14 @@
 var app = require('../../index');
 var testHelpers = require('../testHelpers');
 var expect = require('chai').expect;
+
+
+var passportMock = require('../mockPassportMiddleware');
+var passport = require('koa-passport');
+
+var mockUser = {name: "test"};
+app.use(passportMock.initialize(mockUser));
+app.use(passport.session());
 var request = require('supertest').agent(app.listen());
 
 describe("offerController", function () {
