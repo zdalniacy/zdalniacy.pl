@@ -17,7 +17,6 @@ router.get("github-callback", '/auth/github/callback',
 );
 
 router.post("addOffer", "/offers/add", offersController.addOffer);
-router.post("approveOffer", "/offers/approve/:id", offersController.approveOffer);
 router.get("offers", '/admin/offers', offersController.offerList);
 
 module.exports = router;

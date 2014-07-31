@@ -31,13 +31,12 @@ describe('Admin Page', function () {
   it('should show header "Admin Page"', function (done) {
     request
       .get('/admin_panel/')
-      .expect(302)
+      .expect(200)
       .end(function (err) {
         if (err) {
           throw err;
         }
         done();
-
       });
   });
 });
