@@ -3,7 +3,8 @@
 var app = require('../../index');
 var testHelpers = require('../testHelpers');
 var expect = require('chai').expect;
-
+var testHelper = require('../testHelpers');
+var Offer = require('../../server/models/offer.js');
 
 var passportMock = require('../mockPassportMiddleware');
 var passport = require('koa-passport');
@@ -36,4 +37,19 @@ describe("offerController", function () {
   });
 
 
+  describe('/admin/offers', function () {
+    it('should show list admin offers', function (done) {
+      var offerParams = testHelper.createRandomOffer();
+      var offer = new Offer(offerParams);
+      offer.save(function (err) {
+        if (err) throw err;
+        request
+          .get('/admin/offers/')
+          .expect(200)
+          .end(function () {
+            done();
+          });
+      });
+    });
+  });
 });

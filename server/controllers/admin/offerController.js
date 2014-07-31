@@ -13,8 +13,10 @@ function * addOffer() {
   this.body = result;
 }
 
-function * approveOffer(){
-
+function * approveOffer() {
+  var invokerParams = yield invokerParamsFactory.createParams(require('../../commands/offer/approveOfferCommand'), this);
+  var result = yield commandInvoker.invoke(invokerParams);
+  this.body = result;
 }
 
 module.exports.offerList = offerList;

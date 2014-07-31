@@ -1,9 +1,8 @@
 "use strict";
 
-var app = require('../index'),
-  should = require('should'),
-  Offer = require('../server/models/offer.js'),
-  testHelper = require('./testHelpers');
+var app = require('../index');
+var should = require('should');
+var Offer = require('../server/models/offer.js');
 var passportMock = require('./mockPassportMiddleware');
 var passport = require('koa-passport');
 
@@ -40,22 +39,6 @@ describe('Admin Page', function () {
         done();
 
       });
-  });
-});
-
-describe('Admin Offers', function () {
-  it('should show list admin offers', function (done) {
-    var offerParams = testHelper.createRandomOffer();
-    var offer = new Offer(offerParams);
-    offer.save(function (err) {
-      if (err) throw err;
-      request
-        .get('/admin/offers/')
-        .expect(200)
-        .end(function () {
-          done();
-        });
-    });
   });
 });
 
