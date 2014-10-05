@@ -35,7 +35,8 @@ describe("commandInvoker", function () {
     var commandParams = {};
     var invokerParams = {
       command: require('../commands/commandInvoker.test'),
-      commandParams: commandParams
+      commandParams: commandParams,
+      context: {}
     };
 
     co(function * () {
@@ -66,6 +67,80 @@ describe("commandInvoker", function () {
       } catch (e) {
         expect(e.message).to.equal("The command doesn't have method 'execute'");
       }
+    })(done);
+  });
+
+  it("should throw Error when context is not passed", function (done) {
+
+    co(function *() {
+      try {
+        yield commandInvoker.invoke({command: {execute: function(){}}});
+      } catch (e) {
+        expect(e.message).to.equal("The execution context doesn't exist");
+      }
+    })(done);
+  });
+
+  it("when validator is passed should call method validate", function (done) {
+    var commandParams = {};
+    var validationParams;
+    var validatorWasCalled;
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function (params) {
+      validatorWasCalled = true;
+      validationParams = params;
+    };
+    var invokerParams = {
+      command: command,
+      commandParams: commandParams,
+      context: {}
+    };
+
+    co(function * () {
+      yield commandInvoker.invoke(invokerParams);
+
+      expect(validatorWasCalled).to.equal(true);
+      expect(validationParams).to.equal(commandParams);
+    })(done);
+  });
+
+  it("when validator return array of errors should return object with errors", function (done) {
+    var errors = ["test"];
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function () {
+      return errors;
+    };
+    var invokerParams = {
+      command: command,
+      commandParams: {},
+      context: {}
+    };
+
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      expect(result.status).to.equal(false);
+      expect(result.errors).to.equal(errors);
+    })(done);
+  });
+
+  it("when validator return object of errors should return object with errors", function (done) {
+    var errors = {};
+    var command = require('../commands/commandInvoker.test');
+    command.validate = function () {
+      return errors;
+    };
+    var invokerParams = {
+      command: command,
+      commandParams: {},
+      context: {}
+    };
+
+    co(function * () {
+      var result = yield commandInvoker.invoke(invokerParams);
+
+      expect(result.status).to.equal(false);
+      expect(result.errors).to.equal(errors);
     })(done);
   });
 });

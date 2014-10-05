@@ -5,7 +5,7 @@ var controllers = require("../controllers/home.js"),
   router = new Router();
 
 router.get("home-page", "/", controllers.homePage);
-router.get("offers", '/admin/offers', offersController.offerList);
+
 
 router.get("login", "/login/", controllers.loginPage);
 router.get("login-github", '/auth/github', passport.authenticate('github'));
@@ -15,6 +15,9 @@ router.get("github-callback", '/auth/github/callback',
     failureRedirect: '/'
   })
 );
+
+router.post("addOffer", "/offers/add", offersController.addOffer);
+router.get("offers", '/admin/offers', offersController.offerList);
 
 module.exports = router;
 

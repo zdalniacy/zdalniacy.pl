@@ -158,7 +158,7 @@ describe('subscriptionRepository', function () {
         var notExistsSubscription = yield repository.findOne({_id: savedSubscription._id});
 
         expect(notExistsSubscription).to.equal(null);
-        expect(result).to.equal(1);
+        expect(result[0]).to.equal(1);
         done();
       })();
     });
@@ -172,7 +172,7 @@ describe('subscriptionRepository', function () {
         var documentsAffected = yield repository.remove({_id: savedSubscription._id});
 
 
-        expect(documentsAffected).to.equal(0);
+        expect(documentsAffected[0]).to.equal(0);
         done();
       })();
     });
