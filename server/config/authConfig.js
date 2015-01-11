@@ -1,4 +1,4 @@
-var session = require('koa-sess');
+var session = require('koa-generic-session');
 
 module.exports = function (app, config) {
   "use strict";

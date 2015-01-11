@@ -16,7 +16,7 @@
     "mongoose": "~3.8.17",
     "koa-passport": "~1.1.0",
     "passport-github": "~0.1.5",
-    "koa-generic-session": "~1.2.2",
+    "koa-generic-session": "~1.5.0",
     "lodash": "~2.4.1",
     "q": "~2.0.2",
     "validator": "~3.27.0",
