@@ -61,7 +61,6 @@ describe("offerController", function () {
         .end(function (err, res) {
           if (err) throw err;
           cookie = res.res.headers['set-cookie'];
-          done();
         });
 
       var offerParams = testHelper.createRandomOffer();

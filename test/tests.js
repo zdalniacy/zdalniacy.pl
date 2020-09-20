@@ -1,8 +1,6 @@
 "use strict";
 
 var app = require('../index');
-var should = require('should');
-var Offer = require('../server/models/offer.js');
 var passportMock = require('./mockPassportMiddleware');
 var passport = require('koa-passport');
 
