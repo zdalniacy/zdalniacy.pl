@@ -7,9 +7,9 @@ var configuration = {
   development: {
     rootPath: rootPath,
     port: process.env.PORT || 3000,
-    githubClientId: process.env.GITHUB_CLIENT_ID,
-    githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
-    db: 'mongodb://localhost/test',
+    githubClientId: process.env.GITHUB_CLIENT_ID || "123",
+    githubClientSecret: process.env.GITHUB_CLIENT_SECRET| "123",
+    db: process.env.MONGODB_CONN || 'mongodb://test:test@mongodb:27017/',
     email: {
       config: {
 
@@ -24,7 +24,7 @@ var configuration = {
     port: process.env.PORT || 80,
     githubClientId: process.env.GITHUB_CLIENT_ID,
     githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
-    db: '',
+    db: process.env.MONGODB_CONN || '',
     email: {
       config: {
         auth: {

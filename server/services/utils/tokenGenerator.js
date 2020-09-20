@@ -1,9 +1,9 @@
 "use strict";
 
-var uuid = require('node-uuid');
+const { v1: uuidv1 } = require('uuid');
 
 function generateToken() {
-  return uuid.v1();
+  return uuidv1();
 }
 
 module.exports.generateToken = generateToken;
